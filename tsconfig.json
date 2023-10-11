@@ -1,0 +1,47 @@
+{
+	"compilerOptions": {
+		/* Visit https://aka.ms/tsconfig to read more about this file */
+
+		/* Language and Environment */
+		"target": "esnext",
+
+		/* Modules */
+		"module": "node16",
+		"baseUrl": ".",
+		"rootDir": "./src",
+		"moduleResolution": "node16",
+
+		/* JavaScript Support */
+		"allowJs": false,
+
+		/* Emit */
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"outDir": "lib",
+		"newLine": "crlf",
+
+		/* Interop Constraints */
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+
+		/* Type Checking */
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": true,
+		"noImplicitThis": true,
+		"alwaysStrict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true
+	},
+	"include": ["src/**/*.ts"],
+	"exclude": [
+		"node_modules",
+		"__tests__"
+	]
+}
