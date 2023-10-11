@@ -98,7 +98,7 @@ const project = new Project()
 
 console.log(project.getProject())
 /* Output: {
-    name: 'Zieme, Hauck and McClure'
+	name: 'Zieme, Hauck and McClure'
 	shortName: 'Zieme'
 	abbreviation: 'ZHM'
 } */
