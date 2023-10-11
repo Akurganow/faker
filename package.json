@@ -1,6 +1,6 @@
 {
 	"name": "@plq/faker",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A set of classes for moching known data types such as browser history, browser download list, persona, domain name, Jira project, GitHub repository, etc.",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
