@@ -1,5 +1,5 @@
 # faker
-A set of classes for moching known data types such as browser history, browser download list, person, domain name, Jira project, GitHub repository, etc.
+A set of classes for mocking known data types such as browser history, browser download list, person, domain name, Jira project, GitHub repository, etc.
 
 ## Installation
 
