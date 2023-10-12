@@ -127,11 +127,11 @@ Repository constructor params:
 - domain?: MockDomainItem
 
 ```typescript
-new Repository({
-    user: new User().getUser(),
-    project: new Project().getProject(),
-    domain: new Domain().getDomain(),
-})
+new Repository(
+    new User().getUser(),
+    new Project().getProject(),
+    new Domain().getDomain(),
+)
 ```
 
 ### `Tracker`
@@ -160,11 +160,11 @@ Tracker constructor params:
 - domain?: MockDomainItem
 
 ```typescript
-new Tracker({
-    user: new User().getUser(),
-    project: new Project().getProject(),
-    domain: new Domain().getDomain(),
-})
+new Tracker(
+    new User().getUser(),
+    new Project().getProject(),
+    new Domain().getDomain(),
+)
 ```
 
 ### `User`
@@ -189,9 +189,9 @@ User constructor params:
 - domain?: MockDomainItem
 
 ```typescript
-new User({
-    domain: new Domain().getDomain(), // Using for email generation
-})
+new User(
+    new Domain().getDomain(), // Using for email generation
+)
 ```
 
 ## Contributing
