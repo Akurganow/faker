@@ -11,14 +11,12 @@ export default function createBalancedArray(length: number, sum: number): number
 
 	for (let i = 0; i < length; i++) {
 		array[i] = baseValue + (i < remainder ? 1 : 0)
-		if (isNegativeSum) {
-			array[i] *= -1
 
-			if (Object.is(array[i], -0)) {
-				array[i] = 0
-			}
+		if (isNegativeSum && array[i] > 0) {
+			array[i] *= -1
 		}
 	}
 
 	return array
 }
+

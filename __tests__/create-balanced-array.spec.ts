@@ -56,6 +56,7 @@ describe('utils/create-balanced-array', () => {
 		const largeNumber = 1000000
 		const largeLength = 1000
 		const array = createBalancedArray(largeLength, largeNumber)
+		expect(array).toHaveLength(largeLength)
 		expect(array.reduce((acc, val) => acc + val, 0)).toBe(largeNumber)
 	})
 

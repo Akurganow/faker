@@ -23,6 +23,7 @@
 		"quotes": [2, "single"],
 		"indent": [0, "tab"],
 		"@typescript-eslint/indent": [2, "tab"],
-		"@typescript-eslint/ban-types": [0]
+		"@typescript-eslint/ban-types": [0],
+		"complexity": ["error"]
 	}
 }
