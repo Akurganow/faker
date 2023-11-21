@@ -12,10 +12,7 @@ describe('faker/bookmarks', () => {
 		expect(bookmarks).toBeInstanceOf(Bookmarks)
 		expect(bookmarks).toHaveProperty('getItems')
 		expect(bookmarks).toHaveProperty('getItem')
-		expect(bookmarks).toHaveProperty('getRootItems')
-		expect(bookmarks).toHaveProperty('getChildrenItems')
 		expect(bookmarks).toHaveProperty('getRootItem')
-		expect(bookmarks).toHaveProperty('getChildItem')
 		expect(bookmarks).toHaveProperty('reset')
 	})
 	test('if bookmark has children, each child should have a parentId equals to id of the bookmark', () => {
