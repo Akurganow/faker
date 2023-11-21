@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { BaseMock } from './types'
+import { BaseMock, WithRequired } from './types'
 import { createBalancedArray } from '@plq/array-functions'
 
 export interface MockBookmarksClass extends BaseMock {
@@ -53,7 +53,7 @@ export default class MockBookmarks implements MockBookmarksClass {
 		return {
 			id: faker.string.uuid(),
 			parentId,
-			url: this.query.url || faker.internet.url(),
+			url: parentId ? this.query.url || faker.internet.url() : undefined,
 			title: this.query.title || faker.lorem.words(),
 			dateAdded: faker.date.recent().getTime(),
 			dateGroupModified: faker.date.recent().getTime(),
@@ -67,6 +67,14 @@ export default class MockBookmarks implements MockBookmarksClass {
 
 	public getItem(): MockBookmarksItem {
 		return faker.helpers.arrayElement(this.bookmarks)
+	}
+
+	public getRootItem(): WithRequired<MockBookmarksItem, 'children'> {
+		return faker.helpers.arrayElement(
+			this.bookmarks.filter(
+				item => item.children && item.children.length > 0
+			) as WithRequired<MockBookmarksItem, 'children'>[]
+		)
 	}
 
 	public reset(): void {
