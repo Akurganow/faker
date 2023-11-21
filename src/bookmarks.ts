@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker'
 import { BaseMock } from './types'
-import createBalancedArray from './utils/create-balanced-array'
+import { createBalancedArray } from '@plq/array-functions'
 
 export interface MockBookmarksClass extends BaseMock {
-	getBookmarks(): MockBookmarksItem[]
+	getItems(): MockBookmarksItem[]
 	getItem(): MockBookmarksItem
 }
 
@@ -61,7 +61,7 @@ export default class MockBookmarks implements MockBookmarksClass {
 		}
 	}
 
-	public getBookmarks(): MockBookmarksItem[] {
+	public getItems(): MockBookmarksItem[] {
 		return this.bookmarks
 	}
 

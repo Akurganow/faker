@@ -14,7 +14,7 @@ describe('faker/bookmarks', () => {
 	})
 	test('if bookmark has children, each child should have a parentId equals to id of the bookmark', () => {
 		const bookmarks = new Bookmarks()
-		const items = bookmarks.getBookmarks()
+		const items = bookmarks.getItems()
 
 		for (const item of items) {
 			if (item.children) {
