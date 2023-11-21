@@ -8,7 +8,7 @@ import type { MockProjectItem } from './project'
 import type { MockDomainItem } from './domain'
 
 export interface MockTrackerClass extends BaseMock {
-	getTracker(): MockTrackerItem
+	getItem(): MockTrackerItem
 	readonly user: MockUserItem
 	readonly project: MockProjectItem
 	readonly domain: MockDomainItem
@@ -40,9 +40,9 @@ export default class MockTracker implements MockTrackerClass {
 	}
 
 	constructor(user?: MockUserItem, project?: MockProjectItem, domain?: MockDomainItem) {
-		this.domain = domain ?? new MockDomain().getDomain()
-		this.user = user ?? new MockUser(domain).getUser()
-		this.project = project ?? new MockProject(domain).getProject()
+		this.domain = domain ?? new MockDomain().getItem()
+		this.user = user ?? new MockUser(domain).getItem()
+		this.project = project ?? new MockProject(domain).getItem()
 
 		this.tracker = this.createMockTracker()
 	}
@@ -93,7 +93,7 @@ export default class MockTracker implements MockTrackerClass {
 		return ['jira', 'youtrack']
 	}
 
-	public getTracker(): MockTrackerItem {
+	public getItem(): MockTrackerItem {
 		return this.tracker
 	}
 

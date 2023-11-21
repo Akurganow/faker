@@ -8,12 +8,12 @@ describe('faker/downloads', () => {
 
 		expect(downloads).toBeDefined()
 		expect(downloads).toBeInstanceOf(Downloads)
-		expect(downloads).toHaveProperty('getDownloads')
+		expect(downloads).toHaveProperty('getItems')
 		expect(downloads).toHaveProperty('getItem')
 		expect(downloads).toHaveProperty('reset')
 	})
 	test('should return an array', () => {
-		const downloads = new Downloads().getDownloads()
+		const downloads = new Downloads().getItems()
 
 		expect(downloads).toBeDefined()
 		expect(downloads).toBeInstanceOf(Array)

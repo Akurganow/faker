@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { BaseMock } from './types'
 
 export interface MockDownloadsClass extends BaseMock {
-	getDownloads(): MockDownloadItem[]
+	getItems(): MockDownloadItem[]
 	getItem(): MockDownloadItem
 }
 
@@ -170,7 +170,7 @@ export default class MockDownloads implements MockDownloadsClass {
 		)
 	}
 
-	public getDownloads(): MockDownloadItem[] {
+	public getItems(): MockDownloadItem[] {
 		return this.downloads
 	}
 

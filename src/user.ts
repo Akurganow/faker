@@ -4,7 +4,7 @@ import type { BaseMock } from './types'
 import type { MockDomainItem } from './domain'
 
 export interface MockUserClass extends BaseMock {
-	getUser(): MockUserItem
+	getItem(): MockUserItem
 	readonly domain: MockDomainItem
 }
 export interface MockUserItem {
@@ -19,7 +19,7 @@ export default class MockUser implements MockUserClass {
 	public readonly domain: MockDomainItem
 
 	constructor(domain?: MockDomainItem) {
-		this.domain = domain ?? new MockDomain().getDomain()
+		this.domain = domain ?? new MockDomain().getItem()
 		this.user = this.createUser()
 	}
 
@@ -36,7 +36,7 @@ export default class MockUser implements MockUserClass {
 		}
 	}
 
-	public getUser(): MockUserItem {
+	public getItem(): MockUserItem {
 		return this.user
 	}
 	public reset() {

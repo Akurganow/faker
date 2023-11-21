@@ -3,7 +3,7 @@ import { BaseMock } from './types'
 import MockDomain, { MockDomainItem } from './domain'
 
 export interface MockProjectClass extends BaseMock {
-	getProject(): MockProjectItem
+	getItem(): MockProjectItem
 	readonly domain: MockDomainItem
 }
 export interface MockProjectItem {
@@ -17,7 +17,7 @@ export default class MockProject implements MockProjectClass {
 	public readonly domain: MockDomainItem
 
 	constructor(domain?: MockDomainItem) {
-		this.domain = domain ?? new MockDomain().getDomain()
+		this.domain = domain ?? new MockDomain().getItem()
 		this.project = this.createMockProject()
 	}
 
@@ -49,7 +49,7 @@ export default class MockProject implements MockProjectClass {
 		}
 	}
 
-	public getProject(): MockProjectItem {
+	public getItem(): MockProjectItem {
 		return this.project
 	}
 

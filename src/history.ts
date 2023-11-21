@@ -12,7 +12,7 @@ import type { MockTrackerItem } from './tracker'
 import type { BaseMock } from './types'
 
 export interface MockHistoryClass extends BaseMock {
-	getHistory(): MockHistoryItem[]
+	getItems(): MockHistoryItem[]
 	getItem(): MockHistoryItem
 }
 export interface MockHistoryQuery extends chrome.history.HistoryQuery {}
@@ -50,11 +50,11 @@ export default class MockHistory implements MockHistoryClass {
 
 	constructor(query?: MockHistoryQuery) {
 		this.query = query
-		this.domain = new MockDomain(this.query?.text).getDomain()
-		this.user = new MockUser(this.domain).getUser()
-		this.project = new MockProject(this.domain).getProject()
-		this.repository = new MockRepository(this.user, this.project, this.domain).getRepository()
-		this.tracker = new MockTracker(this.user, this.project, this.domain).getTracker()
+		this.domain = new MockDomain(this.query?.text).getItem()
+		this.user = new MockUser(this.domain).getItem()
+		this.project = new MockProject(this.domain).getItem()
+		this.repository = new MockRepository(this.user, this.project, this.domain).getItem()
+		this.tracker = new MockTracker(this.user, this.project, this.domain).getItem()
 		this.variables = this.createVariables()
 		this.history = this.createMockHistory()
 	}
@@ -131,7 +131,7 @@ export default class MockHistory implements MockHistoryClass {
 		)
 	}
 
-	public getHistory(): MockHistoryItem[] {
+	public getItems(): MockHistoryItem[] {
 		return this.history
 	}
 

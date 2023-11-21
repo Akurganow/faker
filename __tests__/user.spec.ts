@@ -5,12 +5,12 @@ describe('faker/user', () => {
 		const user = new User()
 		expect(user).toBeDefined()
 		expect(user).toBeInstanceOf(User)
-		expect(user).toHaveProperty('getUser')
+		expect(user).toHaveProperty('getItem')
 		expect(user).toHaveProperty('reset')
 		expect(user).toHaveProperty('domain')
 	})
 	test('should return a user', () => {
-		const user = new User().getUser()
+		const user = new User().getItem()
 		expect(user).toBeDefined()
 		expect(user).toHaveProperty('firstName')
 		expect(user).toHaveProperty('lastName')
@@ -42,7 +42,7 @@ describe('faker/user', () => {
 			full: 'https://example.com',
 		}
 		const instance = new User(domain)
-		const user = instance.getUser()
+		const user = instance.getItem()
 		expect(user).toBeDefined()
 		expect(user).toHaveProperty('email')
 		expect(user.email).toBeDefined()

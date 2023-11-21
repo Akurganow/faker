@@ -6,12 +6,13 @@ describe('faker/project', () => {
 
 		expect(project).toBeDefined()
 		expect(project).toBeInstanceOf(Project)
-		expect(project).toHaveProperty('getProject')
+		expect(project).toHaveProperty('getItem')
 		expect(project).toHaveProperty('reset')
 		expect(project).toHaveProperty('domain')
 	})
 	test('should return a project', () => {
-		const project = new Project().getProject()
+		const project = new Project().getItem()
+
 		expect(project).toHaveProperty('name')
 		expect(project).toHaveProperty('shortName')
 		expect(project).toHaveProperty('abbreviation')

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { BaseMock } from './types'
 
 export interface MockDomainClass extends BaseMock {
-	getDomain(): MockDomainItem
+	getItem(): MockDomainItem
 }
 export interface MockDomainItem {
 	protocol: string
@@ -49,7 +49,7 @@ export default class MockDomain implements MockDomainClass {
 		}
 	}
 
-	public getDomain(): MockDomainItem {
+	public getItem(): MockDomainItem {
 		return this.domain
 	}
 	public reset() {

@@ -8,7 +8,7 @@ import type { MockProjectItem } from './project'
 import type { MockDomainItem } from './domain'
 
 export interface MockRepositoryClass extends BaseMock {
-	getRepository(): MockRepositoryItem
+	getItem(): MockRepositoryItem
 	readonly user: MockUserItem
 	readonly project: MockProjectItem
 	readonly domain: MockDomainItem
@@ -39,9 +39,9 @@ export default class MockRepository implements MockRepositoryClass {
 	}
 
 	constructor(user?: MockUserItem, project?: MockProjectItem, domain?: MockDomainItem) {
-		this.domain = domain ?? new MockDomain().getDomain()
-		this.user = user ?? new MockUser(domain).getUser()
-		this.project = project ?? new MockProject(domain).getProject()
+		this.domain = domain ?? new MockDomain().getItem()
+		this.user = user ?? new MockUser(domain).getItem()
+		this.project = project ?? new MockProject(domain).getItem()
 
 		this.repository = this.createMockRepository()
 	}
@@ -91,7 +91,7 @@ export default class MockRepository implements MockRepositoryClass {
 		return ['github', 'gitlab']
 	}
 
-	public getRepository(): MockRepositoryItem {
+	public getItem(): MockRepositoryItem {
 		return this.repository
 	}
 

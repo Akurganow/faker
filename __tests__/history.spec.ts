@@ -7,7 +7,7 @@ describe('faker/history', () => {
 		const mockHistory = new History()
 
 		expect(mockHistory).toBeDefined()
-		expect(mockHistory.getHistory).toBeDefined()
+		expect(mockHistory.getItems).toBeDefined()
 	})
 
 	test('history for "google"', () => {
@@ -18,7 +18,7 @@ describe('faker/history', () => {
 		})
 
 		expect(mockHistory).toBeDefined()
-		expect(mockHistory.getHistory).toBeDefined()
+		expect(mockHistory.getItems).toBeDefined()
 	})
 
 	test('history for "https://github.com"', () => {
@@ -29,7 +29,7 @@ describe('faker/history', () => {
 		})
 
 		expect(mockHistory).toBeDefined()
-		expect(mockHistory.getHistory).toBeDefined()
+		expect(mockHistory.getItems).toBeDefined()
 	})
 
 	test('history for "https://gitlab.com"', () => {
@@ -40,7 +40,7 @@ describe('faker/history', () => {
 		})
 
 		expect(mockHistory).toBeDefined()
-		expect(mockHistory.getHistory).toBeDefined()
+		expect(mockHistory.getItems).toBeDefined()
 	})
 
 	test('history for "https://jira.atlassian.com"', () => {
@@ -51,7 +51,7 @@ describe('faker/history', () => {
 		})
 
 		expect(mockHistory).toBeDefined()
-		expect(mockHistory.getHistory).toBeDefined()
+		expect(mockHistory.getItems).toBeDefined()
 	})
 
 	test('history for "https://youtrack.jetbrains.com"', () => {
@@ -62,7 +62,7 @@ describe('faker/history', () => {
 		})
 
 		expect(mockHistory).toBeDefined()
-		expect(mockHistory.getHistory).toBeDefined()
+		expect(mockHistory.getItems).toBeDefined()
 	})
 
 	test('history for "reddit.com/r/dev"', () => {
@@ -73,7 +73,7 @@ describe('faker/history', () => {
 		})
 
 		expect(mockHistory).toBeDefined()
-		expect(mockHistory.getHistory).toBeDefined()
+		expect(mockHistory.getItems).toBeDefined()
 	})
 
 	test('history for "https://web.dev"', () => {
@@ -84,6 +84,6 @@ describe('faker/history', () => {
 		})
 
 		expect(mockHistory).toBeDefined()
-		expect(mockHistory.getHistory).toBeDefined()
+		expect(mockHistory.getItems).toBeDefined()
 	})
 })
