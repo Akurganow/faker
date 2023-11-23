@@ -1,31 +1,23 @@
 import { faker } from '@faker-js/faker'
-import { BaseMock, WithRequired } from './types'
+import { WithRequired } from './types'
 import { createBalancedArray } from '@plq/array-functions'
+import { BaseItemsMock } from './base'
 
-export interface MockBookmarksClass extends BaseMock {
-	getItems(): MockBookmarksItem[]
-	getItem(): MockBookmarksItem
-}
-
-export interface MockBookmarksItem extends chrome.bookmarks.BookmarkTreeNode {
-}
-
+export interface MockBookmarksItem extends chrome.bookmarks.BookmarkTreeNode {}
 export interface MockBookmarksQuery extends chrome.bookmarks.BookmarkSearchQuery {
 	limit?: number
 }
 
 const DEFAULT_LIMIT = 100
 
-export default class MockBookmarks implements MockBookmarksClass {
-	public readonly query: MockBookmarksQuery
-	private bookmarks: MockBookmarksItem[] = []
-
+export default class MockBookmarks extends BaseItemsMock<MockBookmarksItem, MockBookmarksQuery> {
 	constructor(query?: MockBookmarksQuery) {
-		this.query = query ?? {}
-		this.bookmarks = this.createMockBookmarks()
+		super(query)
+
+		this.reset()
 	}
 
-	private createMockBookmarks(): MockBookmarksItem[] {
+	createMockItems(): MockBookmarksItem[] {
 		const limit = this.query.limit || DEFAULT_LIMIT
 		const rootItemsCount = faker.number.int({ min: 1, max: limit })
 		const childrenItemsCount = limit - rootItemsCount
@@ -33,13 +25,13 @@ export default class MockBookmarks implements MockBookmarksClass {
 		const rootItemsChildrenCount = faker.helpers.shuffle(createBalancedArray(minCount, childrenItemsCount))
 
 		return faker.helpers.multiple(
-			() => this.createMockBookmarksItem(),
+			() => this.createMockItem(),
 			{ count: rootItemsCount }
 		).map((item, index) => {
 			return {
 				...item,
 				children: item.children && rootItemsChildrenCount[index] ? faker.helpers.multiple(
-					() => this.createMockBookmarksItem(item.id),
+					() => this.createMockItem(item.id),
 					{ count: rootItemsChildrenCount[index] }
 				).map((child, index) => ({
 					...child,
@@ -49,7 +41,7 @@ export default class MockBookmarks implements MockBookmarksClass {
 		})
 	}
 
-	private createMockBookmarksItem(parentId?: string): MockBookmarksItem {
+	createMockItem(parentId?: string): MockBookmarksItem {
 		return {
 			id: faker.string.uuid(),
 			parentId,
@@ -61,23 +53,11 @@ export default class MockBookmarks implements MockBookmarksClass {
 		}
 	}
 
-	public getItems(): MockBookmarksItem[] {
-		return this.bookmarks
-	}
-
-	public getItem(): MockBookmarksItem {
-		return faker.helpers.arrayElement(this.bookmarks)
-	}
-
 	public getRootItem(): WithRequired<MockBookmarksItem, 'children'> {
 		return faker.helpers.arrayElement(
-			this.bookmarks.filter(
+			this.items.filter(
 				item => item.children && item.children.length > 0
 			) as WithRequired<MockBookmarksItem, 'children'>[]
 		)
-	}
-
-	public reset(): void {
-		this.bookmarks = this.createMockBookmarks()
 	}
 }

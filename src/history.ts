@@ -7,28 +7,20 @@ import MockTracker from './tracker'
 import type { MockDomainItem } from './domain'
 import type { MockUserItem } from './user'
 import type { MockProjectItem } from './project'
-import type { MockRepositoryItem } from './repository'
-import type { MockTrackerItem } from './tracker'
-import type { BaseMock } from './types'
 
-export interface MockHistoryClass extends BaseMock {
-	getItems(): MockHistoryItem[]
-	getItem(): MockHistoryItem
-}
+import { BaseItemsMock } from './base'
+import { isEmpty } from '@plq/is'
+
 export interface MockHistoryQuery extends chrome.history.HistoryQuery {}
 export interface MockHistoryItem extends chrome.history.HistoryItem {}
 
 type HistoryVariables = Record<string, string>
 
-export default class MockHistory implements MockHistoryClass {
-	public readonly query?: MockHistoryQuery
+export default class MockHistory extends BaseItemsMock<MockHistoryItem, MockHistoryQuery>{
 	private readonly domain: MockDomainItem
-	private readonly user: MockUserItem
-	private readonly project: MockProjectItem
-	private readonly repository: MockRepositoryItem
-	private readonly tracker: MockTrackerItem
+	private user?: MockUserItem
+	private project?: MockProjectItem
 	private variables: HistoryVariables
-	private history: MockHistoryItem[]
 
 	private templates = {
 		default: [
@@ -49,14 +41,15 @@ export default class MockHistory implements MockHistoryClass {
 	}
 
 	constructor(query?: MockHistoryQuery) {
-		this.query = query
-		this.domain = new MockDomain(this.query?.text).getItem()
-		this.user = new MockUser(this.domain).getItem()
-		this.project = new MockProject(this.domain).getItem()
-		this.repository = new MockRepository(this.user, this.project, this.domain).getItem()
-		this.tracker = new MockTracker(this.user, this.project, this.domain).getItem()
+		super(query)
+
+		const text = this.query?.text ?? faker.internet.url()
+
+		this.domain = new MockDomain({ domain: text }).getItem()
 		this.variables = this.createVariables()
-		this.history = this.createMockHistory()
+		this.items = this.createMockItems()
+
+		this.reset()
 	}
 
 	private createVariables() {
@@ -81,11 +74,23 @@ export default class MockHistory implements MockHistoryClass {
 	}
 
 	private getTemplates(): string[] {
-		const repositoryTemplates = this.repository.isSupported
-			? this.repository.templates
+		this.user = this.user ?? new MockUser(this.domain).getItem()
+		this.project = this.project ?? new MockProject(this.domain).getItem()
+
+		const siteQuery = {
+			domain: isEmpty(this.domain) ? undefined : this.domain,
+			user: isEmpty(this.user) ? undefined : this.user,
+			project: isEmpty(this.project) ? undefined : this.project,
+		}
+
+		const repository = new MockRepository(siteQuery).getItem()
+		const tracker = new MockTracker(siteQuery).getItem()
+
+		const repositoryTemplates = repository.isSupported
+			? repository.templates
 			: null
-		const trackerTemplates = this.tracker.isSupported
-			? this.tracker.templates
+		const trackerTemplates = tracker.isSupported
+			? tracker.templates
 			: null
 		const finalTemplates = repositoryTemplates || trackerTemplates || this.getHistoryTemplates()
 
@@ -104,7 +109,7 @@ export default class MockHistory implements MockHistoryClass {
 		return faker.helpers.mustache(urlTemplate, this.variables)
 	}
 
-	private createMockHistoryItem(): MockHistoryItem {
+	createMockItem(): MockHistoryItem {
 		const title = this.getTitle()
 		const url = this.getUrl()
 		const from = this.query?.startTime
@@ -124,23 +129,15 @@ export default class MockHistory implements MockHistoryClass {
 		}
 	}
 
-	private createMockHistory(): MockHistoryItem[] {
+	createMockItems(): MockHistoryItem[] {
 		return faker.helpers.multiple(
-			() => this.createMockHistoryItem(),
+			() => this.createMockItem(),
 			{ count: this.query?.maxResults ?? 10 }
 		)
 	}
 
-	public getItems(): MockHistoryItem[] {
-		return this.history
-	}
-
-	public getItem(): MockHistoryItem {
-		return faker.helpers.arrayElement(this.history)
-	}
-
-	public reset() {
+	reset() {
 		this.variables = this.createVariables()
-		this.history = this.createMockHistory()
+		this.items = this.createMockItems()
 	}
 }

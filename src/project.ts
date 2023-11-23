@@ -1,29 +1,23 @@
 import { faker } from '@faker-js/faker'
-import { BaseMock } from './types'
 import MockDomain, { MockDomainItem } from './domain'
+import { BaseItemMock } from './base'
 
-export interface MockProjectClass extends BaseMock {
-	getItem(): MockProjectItem
-	readonly domain: MockDomainItem
-}
-export interface MockProjectItem {
+export type MockProjectItem = {
 	name: string
 	shortName: string
 	abbreviation: string
 }
 
-export default class MockProject implements MockProjectClass {
-	private project: MockProjectItem
-	public readonly domain: MockDomainItem
+export default class MockProject extends BaseItemMock<MockProjectItem, MockDomainItem>{
+	constructor(query?: MockDomainItem) {
+		super(query, new MockDomain().getItem())
 
-	constructor(domain?: MockDomainItem) {
-		this.domain = domain ?? new MockDomain().getItem()
-		this.project = this.createMockProject()
+		this.reset()
 	}
 
-	private createMockProject(): MockProjectItem {
-		const name = this.domain
-			? this.domain.name
+	createMockItem(): MockProjectItem {
+		const name = this.query
+			? this.query.name
 				.split(/[-_]/i)
 				.map((word) => word[0].toUpperCase() + word.slice(1))
 				.join(' ')
@@ -50,10 +44,10 @@ export default class MockProject implements MockProjectClass {
 	}
 
 	public getItem(): MockProjectItem {
-		return this.project
+		return this.item
 	}
 
 	public reset() {
-		this.project = this.createMockProject()
+		this.item = this.createMockItem()
 	}
 }

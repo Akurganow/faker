@@ -1,18 +1,7 @@
 import { faker } from '@faker-js/faker'
-import { BaseMock } from './types'
-import MockUser from './user'
-import MockProject from './project'
-import MockDomain from './domain'
-import type { MockUserItem } from './user'
-import type { MockProjectItem } from './project'
-import type { MockDomainItem } from './domain'
 
-export interface MockTrackerClass extends BaseMock {
-	getItem(): MockTrackerItem
-	readonly user: MockUserItem
-	readonly project: MockProjectItem
-	readonly domain: MockDomainItem
-}
+import { BaseSiteMock, SiteQuery } from './base-extended'
+
 export interface MockTrackerItem {
 	provider: string
 	user: string
@@ -22,13 +11,9 @@ export interface MockTrackerItem {
 	templates: string[][]
 	isSupported: boolean
 }
-export default class MockTracker implements MockTrackerClass {
-	public readonly user: MockUserItem
-	public readonly project: MockProjectItem
-	public readonly domain: MockDomainItem
-	private tracker: MockTrackerItem
 
-	private templates = {
+export default class MockTracker extends BaseSiteMock<MockTrackerItem>{
+	templates = {
 		jira: [
 			['{{url}}/browse/{{abbreviation}}-{{issueId}}', '{{abbreviation}}-{{issueId}} - {{summary}} - Atlassian Jira'],
 			['{{url}}/{{fakePath}}', '{{fakePath}} - Atlassian Jira'],
@@ -39,12 +24,10 @@ export default class MockTracker implements MockTrackerClass {
 		],
 	}
 
-	constructor(user?: MockUserItem, project?: MockProjectItem, domain?: MockDomainItem) {
-		this.domain = domain ?? new MockDomain().getItem()
-		this.user = user ?? new MockUser(domain).getItem()
-		this.project = project ?? new MockProject(domain).getItem()
+	constructor(query?: SiteQuery) {
+		super(query)
 
-		this.tracker = this.createMockTracker()
+		this.reset()
 	}
 
 	private isProviderSupported() {
@@ -62,7 +45,7 @@ export default class MockTracker implements MockTrackerClass {
 			?? providers[Math.floor(Math.random() * providers.length)]
 	}
 
-	private createMockTracker(): MockTrackerItem {
+	createMockItem(): MockTrackerItem {
 		const provider = this.supportedProvider()
 		const user = this.user.nickname.toLowerCase()
 		const project = this.project.shortName.toLowerCase()
@@ -87,17 +70,5 @@ export default class MockTracker implements MockTrackerClass {
 			templates,
 			isSupported: this.isProviderSupported(),
 		}
-	}
-
-	public get providers() {
-		return ['jira', 'youtrack']
-	}
-
-	public getItem(): MockTrackerItem {
-		return this.tracker
-	}
-
-	public reset() {
-		this.tracker = this.createMockTracker()
 	}
 }

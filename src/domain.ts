@@ -1,9 +1,6 @@
 import { faker } from '@faker-js/faker'
-import { BaseMock } from './types'
+import { BaseItemMock } from './base'
 
-export interface MockDomainClass extends BaseMock {
-	getItem(): MockDomainItem
-}
 export interface MockDomainItem {
 	protocol: string
 	name: string
@@ -11,23 +8,28 @@ export interface MockDomainItem {
 	domainName: string
 	full: string
 }
-export default class MockDomain implements MockDomainClass {
-	private domain: MockDomainItem
-	private readonly text: string
 
-	constructor(text?: string) {
-		this.text = text ?? ''
-		this.domain = this.createDomain()
+export type MockDomainQuery = {
+	domain: string
+}
+
+export default class MockDomain extends BaseItemMock<MockDomainItem, MockDomainQuery> {
+	constructor(query?: MockDomainQuery) {
+		super(query, { domain: faker.internet.url() })
+
+		this.reset()
 	}
 
-	private createDomain(): MockDomainItem {
-		const protocol = this.text?.match(/(https?|ftp):\/\//)?.[1] ?? faker.internet.protocol()
+	createMockItem(): MockDomainItem {
+		const protocol = this.query.domain?.match(/(https?|ftp):\/\//)?.[1] ?? faker.internet.protocol()
 
 		let domainName = protocol
-			? this.text?.replace(`${protocol}://`, '')
-			: this.text
+			? this.query.domain?.replace(`${protocol}://`, '')
+			: this.query.domain
+
 		domainName = domainName?.replace(/\/$/im, '')
 		const hasWWW = domainName?.match(/^www\./im)
+
 		domainName = hasWWW
 			? domainName?.replace(/^www\./im, '')
 			: domainName
@@ -47,12 +49,5 @@ export default class MockDomain implements MockDomainClass {
 			domainName: `${name}.${tld}`,
 			full: `${protocol}://${hasWWW ? 'www.' : ''}${name}.${tld}`,
 		}
-	}
-
-	public getItem(): MockDomainItem {
-		return this.domain
-	}
-	public reset() {
-		this.domain = this.createDomain()
 	}
 }

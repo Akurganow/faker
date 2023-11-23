@@ -21,7 +21,7 @@ import { Domain } from '@plq/faker'
 
 const domain = new Domain()
 
-console.log(domain.getDomain())
+domain.getItem()
 /* Output: {
     protocol: 'https', // Random protocol
     name: 'close-reality', // Random domain name
@@ -48,8 +48,8 @@ import { Downloads } from '@plq/faker'
 
 const downloads = new Downloads()
 
-console.log(downloads.getDownloads()) // Returns an array of download items
-console.log(downloads.getItem()) // Returns a single download item
+downloads.getItems() // Returns an array of download items
+downloads.getItem() // Returns a single download item
 ```
 
 With predefined data, class accepts an object with type of [downloads.DownloadQuery](https://developer.chrome.com/docs/extensions/reference/downloads/https://developer.chrome.com/docs/extensions/reference/downloads/#type-DownloadQuery):
@@ -60,7 +60,6 @@ new Downloads({
     limit: 100, // Number of download items
     startedAfter: new Date('2023-01-01').getTime(), // All items will be created with startTime after 2023-01-01
     startedBefore: new Date('2023-01-31').getTime(), // All items will be created with startTime before 2023-01-31
-    ...
 }) 
 ```
 
@@ -73,8 +72,8 @@ import { History } from '@plq/faker'
 
 const history = new History()
 
-console.log(history.getHistory()) // Returns an array of history items
-console.log(history.getItem()) // Returns a single history item
+history.getItems() // Returns an array of history items
+history.getItem() // Returns a single history item
 ```
 
 With predefined data, class accepts an object with type of [history.search.query](https://developer.chrome.com/docs/extensions/reference/history/#type-search-query):
@@ -96,7 +95,7 @@ import { Project } from '@plq/faker'
 
 const project = new Project()
 
-console.log(project.getProject())
+project.getItem()
 /* Output: {
 	name: 'Zieme, Hauck and McClure'
 	shortName: 'Zieme'
@@ -112,7 +111,7 @@ import { Repository } from '@plq/faker'
 
 const repository = new Repository()
 
-console.log(repository.getRepository())
+repository.getItem()
 /* Output: {
     provider: 'github' | 'gitlab', // Random or predefined
 	user: 'Nettie_Zboncak40', // Random user nickname
@@ -127,11 +126,11 @@ Repository constructor params:
 - domain?: MockDomainItem
 
 ```typescript
-new Repository(
-    new User().getUser(),
-    new Project().getProject(),
-    new Domain().getDomain(),
-)
+new Repository({
+    user: new User().getItem(),
+    project: new Project().getItem(),
+    domain: new Domain().getItem(),
+})
 ```
 
 ### `Tracker`
@@ -142,7 +141,7 @@ import { Tracker } from '@plq/faker'
 
 const tracker = new Tracker()
 
-console.log(tracker.getTracker())
+tracker.getItem()
 /*
 Output: {
     provider: 'jira' | 'youtrack', // Random or predefined
@@ -160,11 +159,11 @@ Tracker constructor params:
 - domain?: MockDomainItem
 
 ```typescript
-new Tracker(
-    new User().getUser(),
-    new Project().getProject(),
-    new Domain().getDomain(),
-)
+new Tracker({
+    user: new User().getItem(),
+    project: new Project().getItem(),
+    domain: new Domain().getItem(),
+})
 ```
 
 ### `User`
@@ -175,7 +174,7 @@ import { User } from '@plq/faker'
 
 const user = new User()
 
-console.log(user.getUser())
+user.getItem()
 /* Output: {
     nickname: 'Helene_Muller11'
 	email: 'Helene_Muller11@fakerjs.dev'
@@ -190,7 +189,7 @@ User constructor params:
 
 ```typescript
 new User(
-    new Domain().getDomain(), // Using for email generation
+    new Domain().getItem() // Using for email generation
 )
 ```
 

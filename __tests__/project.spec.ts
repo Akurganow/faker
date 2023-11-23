@@ -8,7 +8,6 @@ describe('faker/project', () => {
 		expect(project).toBeInstanceOf(Project)
 		expect(project).toHaveProperty('getItem')
 		expect(project).toHaveProperty('reset')
-		expect(project).toHaveProperty('domain')
 	})
 	test('should return a project', () => {
 		const project = new Project().getItem()
@@ -35,8 +34,8 @@ describe('faker/project', () => {
 			full: 'https://example.com',
 		}
 		const instance = new Project(domain)
-		expect(instance.domain).toBeDefined()
-		expect(instance.domain).not.toBeNull()
-		expect(instance.domain).toEqual(domain)
+		expect(instance.query).toBeDefined()
+		expect(instance.query).not.toBeNull()
+		expect(instance.query).toEqual(domain)
 	})
 })

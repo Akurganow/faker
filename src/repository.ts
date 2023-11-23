@@ -1,18 +1,7 @@
 import { faker } from '@faker-js/faker'
-import MockUser from './user'
-import MockProject from './project'
-import MockDomain from './domain'
-import type { BaseMock } from './types'
-import type { MockUserItem } from './user'
-import type { MockProjectItem } from './project'
-import type { MockDomainItem } from './domain'
 
-export interface MockRepositoryClass extends BaseMock {
-	getItem(): MockRepositoryItem
-	readonly user: MockUserItem
-	readonly project: MockProjectItem
-	readonly domain: MockDomainItem
-}
+import { BaseSiteMock, SiteQuery } from './base-extended'
+
 export interface MockRepositoryItem {
 	provider: string
 	user: string
@@ -21,13 +10,9 @@ export interface MockRepositoryItem {
 	templates: string[][]
 	isSupported: boolean
 }
-export default class MockRepository implements MockRepositoryClass {
-	public readonly user: MockUserItem
-	public readonly project: MockProjectItem
-	public readonly domain: MockDomainItem
-	private repository: MockRepositoryItem
 
-	private templates = {
+export default class MockRepository extends BaseSiteMock<MockRepositoryItem>{
+	templates = {
 		github: [
 			['{{url}}/{{user}}/{{project}}', '{{user}}/{{project}}'],
 			['{{url}}/{{fakePath}}', '{{fakePath}}'],
@@ -38,12 +23,10 @@ export default class MockRepository implements MockRepositoryClass {
 		],
 	}
 
-	constructor(user?: MockUserItem, project?: MockProjectItem, domain?: MockDomainItem) {
-		this.domain = domain ?? new MockDomain().getItem()
-		this.user = user ?? new MockUser(domain).getItem()
-		this.project = project ?? new MockProject(domain).getItem()
+	constructor(query?: SiteQuery) {
+		super(query)
 
-		this.repository = this.createMockRepository()
+		this.reset()
 	}
 
 	private isProviderSupported() {
@@ -61,7 +44,7 @@ export default class MockRepository implements MockRepositoryClass {
 			?? faker.helpers.arrayElement(providers)
 	}
 
-	private createMockRepository(): MockRepositoryItem {
+	createMockItem(): MockRepositoryItem {
 		const provider = this.supportedProvider()
 		const user = this.user.nickname.toLowerCase()
 		const project = this.project.shortName.toLowerCase()
@@ -85,17 +68,5 @@ export default class MockRepository implements MockRepositoryClass {
 			templates,
 			isSupported: this.isProviderSupported(),
 		}
-	}
-
-	public get providers() {
-		return ['github', 'gitlab']
-	}
-
-	public getItem(): MockRepositoryItem {
-		return this.repository
-	}
-
-	public reset() {
-		this.repository = this.createMockRepository()
 	}
 }

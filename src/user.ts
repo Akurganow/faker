@@ -1,12 +1,8 @@
 import { faker } from '@faker-js/faker'
 import MockDomain from './domain'
-import type { BaseMock } from './types'
 import type { MockDomainItem } from './domain'
+import { BaseItemMock } from './base'
 
-export interface MockUserClass extends BaseMock {
-	getItem(): MockUserItem
-	readonly domain: MockDomainItem
-}
 export interface MockUserItem {
 	nickname: string
 	email: string
@@ -14,16 +10,15 @@ export interface MockUserItem {
 	lastName: string
 	fullName: string
 }
-export default class MockUser implements MockUserClass {
-	private user: MockUserItem
-	public readonly domain: MockDomainItem
 
+export default class MockUser extends BaseItemMock<MockUserItem, MockDomainItem>{
 	constructor(domain?: MockDomainItem) {
-		this.domain = domain ?? new MockDomain().getItem()
-		this.user = this.createUser()
+		super(domain, new MockDomain().getItem())
+
+		this.reset()
 	}
 
-	private createUser(): MockUserItem {
+	createMockItem(): MockUserItem {
 		const firstName = faker.person.firstName()
 		const lastName = faker.person.lastName()
 
@@ -31,15 +26,8 @@ export default class MockUser implements MockUserClass {
 			firstName,
 			lastName,
 			nickname: faker.internet.userName({ firstName, lastName }),
-			email: faker.internet.email({ firstName, lastName, provider: this.domain.domainName }),
+			email: faker.internet.email({ firstName, lastName, provider: this.query.domainName }),
 			fullName: `${firstName} ${lastName}`,
 		}
-	}
-
-	public getItem(): MockUserItem {
-		return this.user
-	}
-	public reset() {
-		this.user = this.createUser()
 	}
 }

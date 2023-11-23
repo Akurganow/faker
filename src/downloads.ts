@@ -1,16 +1,10 @@
 import { faker } from '@faker-js/faker'
-import { BaseMock } from './types'
 
-export interface MockDownloadsClass extends BaseMock {
-	getItems(): MockDownloadItem[]
-	getItem(): MockDownloadItem
-}
+import { BaseItemsMock } from './base'
 
-export interface MockDownloadItem extends chrome.downloads.DownloadItem {
-}
+export interface MockDownloadItem extends chrome.downloads.DownloadItem {}
 
-export interface MockDownloadQuery extends chrome.downloads.DownloadQuery {
-}
+export interface MockDownloadQuery extends chrome.downloads.DownloadQuery {}
 
 type FileUrl = {
 	url: string
@@ -19,6 +13,7 @@ type FileUrl = {
 	filename: string
 	referrer: string
 }
+
 type FileDates = {
 	startTime: string
 	estimatedEndTime?: string
@@ -29,15 +24,12 @@ const downloadStates = ['in_progress', 'complete', 'interrupted'] as chrome.down
 const dangerTypes = ['file', 'url', 'content', 'uncommon', 'host', 'unwanted', 'safe'] as chrome.downloads.DangerType[]
 const interruptReasons = ['FILE_FAILED', 'FILE_ACCESS_DENIED', 'FILE_NO_SPACE', 'FILE_NAME_TOO_LONG', 'FILE_TOO_LARGE', 'FILE_VIRUS_INFECTED', 'FILE_TRANSIENT_ERROR', 'FILE_BLOCKED', 'FILE_SECURITY_CHECK_FAILED', 'FILE_TOO_SHORT', 'FILE_HASH_MISMATCH', 'FILE_SAME_AS_SOURCE', 'NETWORK_FAILED', 'NETWORK_TIMEOUT', 'NETWORK_DISCONNECTED', 'NETWORK_SERVER_DOWN', 'NETWORK_INVALID_REQUEST', 'SERVER_FAILED', 'SERVER_NO_RANGE', 'SERVER_BAD_CONTENT', 'SERVER_UNAUTHORIZED', 'SERVER_CERT_PROBLEM', 'SERVER_FORBIDDEN', 'SERVER_UNREACHABLE', 'SERVER_CONTENT_LENGTH_MISMATCH', 'SERVER_CROSS_ORIGIN_REDIRECT', 'USER_CANCELED', 'USER_SHUTDOWN', 'CRASH'] as chrome.downloads.DownloadInterruptReason[]
 
-export default class MockDownloads implements MockDownloadsClass {
-	public readonly query: MockDownloadQuery
-	private downloads: MockDownloadItem[] = []
-
+export default class MockDownloads extends BaseItemsMock<MockDownloadItem, MockDownloadQuery>{
 	constructor(query?: MockDownloadQuery) {
-		this.query = query ?? {}
-		this.downloads = this.createMockDownloads()
-	}
+		super(query)
 
+		this.reset()
+	}
 	private getFileUrl(): FileUrl {
 		const domain = faker.internet.url( { appendSlash: false })
 		const uuid = faker.string.uuid()
@@ -119,7 +111,7 @@ export default class MockDownloads implements MockDownloadsClass {
 		}
 	}
 
-	private createMockDownloadItem(): MockDownloadItem {
+	createMockItem(): MockDownloadItem {
 		const state = this.query.state as chrome.downloads.DownloadState
 			?? faker.helpers.arrayElement(downloadStates)
 		const {
@@ -163,22 +155,10 @@ export default class MockDownloads implements MockDownloadsClass {
 		}
 	}
 
-	private createMockDownloads(): MockDownloadItem[] {
+	createMockItems(): MockDownloadItem[] {
 		return faker.helpers.multiple(
-			() => this.createMockDownloadItem(),
+			() => this.createMockItem(),
 			{ count: this.query.limit ?? 10 }
 		)
-	}
-
-	public getItems(): MockDownloadItem[] {
-		return this.downloads
-	}
-
-	public getItem(): MockDownloadItem {
-		return faker.helpers.arrayElement(this.downloads)
-	}
-
-	public reset() {
-		this.downloads = this.createMockDownloads()
 	}
 }
