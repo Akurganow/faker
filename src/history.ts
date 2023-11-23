@@ -8,8 +8,8 @@ import type { MockDomainItem } from './domain'
 import type { MockUserItem } from './user'
 import type { MockProjectItem } from './project'
 
-import { BaseItemsMock } from './base'
 import { isEmpty } from '@plq/is'
+import { BaseItemsMock } from './base-extended'
 
 export interface MockHistoryQuery extends chrome.history.HistoryQuery {}
 export interface MockHistoryItem extends chrome.history.HistoryItem {}

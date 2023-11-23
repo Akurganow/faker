@@ -1,7 +1,8 @@
 import { faker } from '@faker-js/faker'
 import { WithRequired } from './types'
 import { createBalancedArray } from '@plq/array-functions'
-import { BaseItemsMock } from './base'
+
+import { BaseItemsMock } from './base-extended'
 
 export interface MockBookmarksItem extends chrome.bookmarks.BookmarkTreeNode {}
 export interface MockBookmarksQuery extends chrome.bookmarks.BookmarkSearchQuery {

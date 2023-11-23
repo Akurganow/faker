@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 
-import { BaseItemsMock } from './base'
+
+import { BaseItemsMock } from './base-extended'
 
 export interface MockDownloadItem extends chrome.downloads.DownloadItem {}
 
