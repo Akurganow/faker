@@ -21,9 +21,9 @@ type FileDates = {
 	endTime: string
 }
 
-const downloadStates = ['in_progress', 'complete', 'interrupted'] as chrome.downloads.DownloadState[]
+const downloadStates = ['in_progress', 'complete', 'interrupted'] as chrome.downloads.State[]
 const dangerTypes = ['file', 'url', 'content', 'uncommon', 'host', 'unwanted', 'safe'] as chrome.downloads.DangerType[]
-const interruptReasons = ['FILE_FAILED', 'FILE_ACCESS_DENIED', 'FILE_NO_SPACE', 'FILE_NAME_TOO_LONG', 'FILE_TOO_LARGE', 'FILE_VIRUS_INFECTED', 'FILE_TRANSIENT_ERROR', 'FILE_BLOCKED', 'FILE_SECURITY_CHECK_FAILED', 'FILE_TOO_SHORT', 'FILE_HASH_MISMATCH', 'FILE_SAME_AS_SOURCE', 'NETWORK_FAILED', 'NETWORK_TIMEOUT', 'NETWORK_DISCONNECTED', 'NETWORK_SERVER_DOWN', 'NETWORK_INVALID_REQUEST', 'SERVER_FAILED', 'SERVER_NO_RANGE', 'SERVER_BAD_CONTENT', 'SERVER_UNAUTHORIZED', 'SERVER_CERT_PROBLEM', 'SERVER_FORBIDDEN', 'SERVER_UNREACHABLE', 'SERVER_CONTENT_LENGTH_MISMATCH', 'SERVER_CROSS_ORIGIN_REDIRECT', 'USER_CANCELED', 'USER_SHUTDOWN', 'CRASH'] as chrome.downloads.DownloadInterruptReason[]
+const interruptReasons = ['FILE_FAILED', 'FILE_ACCESS_DENIED', 'FILE_NO_SPACE', 'FILE_NAME_TOO_LONG', 'FILE_TOO_LARGE', 'FILE_VIRUS_INFECTED', 'FILE_TRANSIENT_ERROR', 'FILE_BLOCKED', 'FILE_SECURITY_CHECK_FAILED', 'FILE_TOO_SHORT', 'FILE_HASH_MISMATCH', 'FILE_SAME_AS_SOURCE', 'NETWORK_FAILED', 'NETWORK_TIMEOUT', 'NETWORK_DISCONNECTED', 'NETWORK_SERVER_DOWN', 'NETWORK_INVALID_REQUEST', 'SERVER_FAILED', 'SERVER_NO_RANGE', 'SERVER_BAD_CONTENT', 'SERVER_UNAUTHORIZED', 'SERVER_CERT_PROBLEM', 'SERVER_FORBIDDEN', 'SERVER_UNREACHABLE', 'SERVER_CONTENT_LENGTH_MISMATCH', 'SERVER_CROSS_ORIGIN_REDIRECT', 'USER_CANCELED', 'USER_SHUTDOWN', 'CRASH'] as chrome.downloads.InterruptReason[]
 
 export default class MockDownloads extends BaseItemsMock<MockDownloadItem, MockDownloadQuery>{
 	constructor(query?: MockDownloadQuery) {
@@ -113,7 +113,7 @@ export default class MockDownloads extends BaseItemsMock<MockDownloadItem, MockD
 	}
 
 	createMockItem(): MockDownloadItem {
-		const state = this.query.state as chrome.downloads.DownloadState
+		const state = this.query.state as chrome.downloads.State
 			?? faker.helpers.arrayElement(downloadStates)
 		const {
 			url,

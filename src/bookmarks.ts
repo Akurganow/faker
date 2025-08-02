@@ -5,7 +5,7 @@ import { createBalancedArray } from '@plq/array-functions'
 import { BaseItemsMock } from './base-extended'
 
 export interface MockBookmarksItem extends chrome.bookmarks.BookmarkTreeNode {}
-export interface MockBookmarksQuery extends chrome.bookmarks.BookmarkSearchQuery {
+export interface MockBookmarksQuery extends chrome.bookmarks.SearchQuery {
 	limit?: number
 }
 
@@ -50,6 +50,7 @@ export default class MockBookmarks extends BaseItemsMock<MockBookmarksItem, Mock
 			title: this.query.title || faker.lorem.words(),
 			dateAdded: faker.date.recent().getTime(),
 			dateGroupModified: faker.date.recent().getTime(),
+			syncing: faker.datatype.boolean(),
 			children: parentId ? undefined : [],
 		}
 	}
