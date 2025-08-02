@@ -55,10 +55,20 @@ export default class MockBookmarks extends BaseItemsMock<MockBookmarksItem, Mock
 	}
 
 	public getRootItem(): WithRequired<MockBookmarksItem, 'children'> {
-		return faker.helpers.arrayElement(
-			this.items.filter(
-				item => item.children && item.children.length > 0
-			) as WithRequired<MockBookmarksItem, 'children'>[]
-		)
+		const itemsWithChildren = this.items.filter(
+			item => item.children && item.children.length > 0
+		) as WithRequired<MockBookmarksItem, 'children'>[]
+		
+		// If no items have children, create one by adding a child to an existing item
+		if (itemsWithChildren.length === 0) {
+			const rootItem = faker.helpers.arrayElement(this.items)
+			if (!rootItem.children) {
+				rootItem.children = []
+			}
+			rootItem.children.push(this.createMockItem(rootItem.id))
+			return rootItem as WithRequired<MockBookmarksItem, 'children'>
+		}
+		
+		return faker.helpers.arrayElement(itemsWithChildren)
 	}
 }
