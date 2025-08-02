@@ -10,6 +10,7 @@
 		"baseUrl": ".",
 		"rootDir": "./src",
 		"moduleResolution": "node16",
+		"isolatedModules": true,
 
 		/* JavaScript Support */
 		"allowJs": false,

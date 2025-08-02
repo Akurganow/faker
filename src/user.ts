@@ -36,7 +36,7 @@ export default class MockUser extends BaseItemMock<MockUserItem, MockDomainItem>
 		return {
 			firstName,
 			lastName,
-			nickname: faker.internet.userName({ firstName, lastName }),
+			nickname: faker.internet.username({ firstName, lastName }),
 			email: faker.internet.email({ firstName, lastName, provider: this.query.domainName }),
 			fullName: `${firstName} ${lastName}`,
 		}
