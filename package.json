@@ -52,7 +52,7 @@
 	"homepage": "https://github.com/Akurganow/faker#readme",
 	"devDependencies": {
 		"@eslint/js": "^9.0.0",
-		"@release-it/conventional-changelog": "^7.0.2",
+		"@release-it/conventional-changelog": "^10.0.0",
 		"@types/jest": "^29.5.5",
 		"dotenv-cli": "^10.0.0",
 		"eslint": "^9.0.0",
