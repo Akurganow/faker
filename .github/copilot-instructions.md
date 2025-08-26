@@ -11,7 +11,7 @@ Run these commands in exact order to set up the development environment:
 
 1. **Install dependencies** (NEVER skip this step):
    ```bash
-   npm ci --ignore-scripts
+   npm ci
    ```
    - Takes approximately 4 seconds
    - Requires internet connection
@@ -47,7 +47,7 @@ Run these commands in exact order to set up the development environment:
 ### Full Development Workflow
 Run the complete validation sequence:
 ```bash
-npm ci --ignore-scripts && npm run lint && npm run test && npm run build
+npm ci && npm run lint && npm run test && npm run build
 ```
 - Total time: approximately 15 seconds
 - NEVER CANCEL: Wait for all commands to complete
@@ -130,7 +130,7 @@ Always reference these patterns when working with the library:
 ## CI Pipeline Requirements
 
 The GitHub Actions CI (`.github/workflows/main.yml`) runs:
-1. `npm ci --ignore-scripts` 
+1. `npm ci` 
 2. `npm run lint`
 3. `npm run test` 
 4. `npm run build`
@@ -141,7 +141,7 @@ The GitHub Actions CI (`.github/workflows/main.yml`) runs:
 
 ### Build Failures
 - **Problem**: `Cannot find module '@faker-js/faker'` errors
-- **Solution**: Run `npm ci --ignore-scripts` first - dependencies are required
+- **Solution**: Run `npm ci` first - dependencies are required
 
 ### Test Failures
 - **Problem**: Tests fail after code changes
@@ -171,10 +171,10 @@ The project uses `release-it` for automated releases:
 
 ```bash
 # Complete setup and validation (run after any changes):
-npm ci --ignore-scripts && npm run lint && npm run test && npm run build
+npm ci && npm run lint && npm run test && npm run build
 
 # Individual commands:
-npm ci --ignore-scripts   # Install dependencies (~4 seconds)
+npm ci   # Install dependencies (~4 seconds)
 npm run lint              # Check code style (~1 second)  
 npm run test              # Run test suite (~4 seconds)
 npm run build             # Compile TypeScript (~6 seconds)
