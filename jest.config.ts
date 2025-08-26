@@ -6,12 +6,21 @@
 import type { Config } from 'jest'
 
 const config: Config = {
-	preset: 'ts-jest',
 	testEnvironment: 'jest-environment-node',
 	clearMocks: true,
 	collectCoverage: true,
 	coverageDirectory: 'coverage',
 	coverageProvider: 'v8',
+	extensionsToTreatAsEsm: ['.ts'],
+	transform: {
+		'^.+\\.tsx?$': ['ts-jest', {
+			useESM: true,
+		}],
+		'^.+\\.jsx?$': 'babel-jest',
+	},
+	transformIgnorePatterns: [
+		'node_modules/(?!@faker-js/faker)',
+	],
 }
 
 export default config

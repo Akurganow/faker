@@ -51,9 +51,12 @@
 	},
 	"homepage": "https://github.com/Akurganow/faker#readme",
 	"devDependencies": {
+		"@babel/core": "^7.28.3",
+		"@babel/preset-env": "^7.28.3",
 		"@eslint/js": "^9.0.0",
 		"@release-it/conventional-changelog": "^10.0.1",
 		"@types/jest": "^30.0.0",
+		"babel-jest": "^30.0.5",
 		"dotenv-cli": "^10.0.0",
 		"eslint": "^9.0.0",
 		"jest": "^30.0.5",
