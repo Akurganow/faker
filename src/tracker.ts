@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { BaseSiteMock, SiteQuery } from './base-extended'
+import { BaseSiteMock, SiteQuery } from './base-extended.js'
 
 export interface MockTrackerItem {
 	provider: string
