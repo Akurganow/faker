@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
-import MockDomain from './domain'
-import type { MockDomainItem } from './domain'
-import { BaseItemMock } from './base'
+import MockDomain from './domain.js'
+import type { MockDomainItem } from './domain.js'
+import { BaseItemMock } from './base.js'
 
 export interface MockUserItem {
 	nickname: string

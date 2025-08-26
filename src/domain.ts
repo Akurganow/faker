@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { BaseItemMock } from './base'
+import { BaseItemMock } from './base.js'
 
 export interface MockDomainItem {
 	protocol: string
