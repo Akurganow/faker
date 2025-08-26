@@ -1,15 +1,15 @@
 import { faker } from '@faker-js/faker'
-import MockDomain from './domain'
-import MockUser from './user'
-import MockProject from './project'
-import MockRepository from './repository'
-import MockTracker from './tracker'
-import type { MockDomainItem } from './domain'
-import type { MockUserItem } from './user'
-import type { MockProjectItem } from './project'
+import MockDomain from './domain.js'
+import MockUser from './user.js'
+import MockProject from './project.js'
+import MockRepository from './repository.js'
+import MockTracker from './tracker.js'
+import type { MockDomainItem } from './domain.js'
+import type { MockUserItem } from './user.js'
+import type { MockProjectItem } from './project.js'
 
 import { isEmpty } from '@plq/is'
-import { BaseItemsMock } from './base-extended'
+import { BaseItemsMock } from './base-extended.js'
 
 export interface MockHistoryQuery extends chrome.history.HistoryQuery {}
 export interface MockHistoryItem extends chrome.history.HistoryItem {}

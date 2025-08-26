@@ -6,10 +6,10 @@
 		"target": "esnext",
 
 		/* Modules */
-		"module": "commonjs",
+		"module": "NodeNext",
 		"baseUrl": ".",
 		"rootDir": "./src",
-		"moduleResolution": "node",
+		"moduleResolution": "nodenext",
 		"isolatedModules": true,
 
 		/* JavaScript Support */
