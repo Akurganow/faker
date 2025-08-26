@@ -11,6 +11,14 @@ const config: Config = {
 	collectCoverage: true,
 	coverageDirectory: 'coverage',
 	coverageProvider: 'v8',
+	coverageThreshold: {
+		global: {
+			branches: 92,
+			functions: 88,
+			lines: 99,
+			statements: 99,
+		},
+	},
 	extensionsToTreatAsEsm: ['.ts'],
 	moduleNameMapper: {
 		'^(\\.{1,2}/.*)\\.js$': '$1',
