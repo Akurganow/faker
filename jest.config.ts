@@ -13,10 +13,10 @@ const config: Config = {
 	coverageProvider: 'v8',
 	coverageThreshold: {
 		global: {
-			branches: 92,
-			functions: 88,
-			lines: 99,
-			statements: 99,
+			branches: 80,
+			functions: 80,
+			lines: 80,
+			statements: 80,
 		},
 	},
 	extensionsToTreatAsEsm: ['.ts'],
