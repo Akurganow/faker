@@ -12,7 +12,7 @@ export interface MockTrackerItem {
 	isSupported: boolean
 }
 
-export default class MockTracker extends BaseSiteMock<MockTrackerItem>{
+export default class MockTracker extends BaseSiteMock<MockTrackerItem> {
 	templates = {
 		jira: [
 			['{{url}}/browse/{{abbreviation}}-{{issueId}}', '{{abbreviation}}-{{issueId}} - {{summary}} - Atlassian Jira'],
@@ -31,18 +31,16 @@ export default class MockTracker extends BaseSiteMock<MockTrackerItem>{
 	}
 
 	private isProviderSupported() {
-		return Boolean(this.providers
-			.find(provider =>
-				this.domain.name.includes(provider)
-			)
-		)
+		return Boolean(this.providers.find(provider => this.domain.name.includes(provider)))
 	}
 
 	public supportedProvider() {
 		const providers = this.providers
 
-		return providers.find(provider => this.domain.name.includes(provider))
-			?? providers[Math.floor(Math.random() * providers.length)]
+		return (
+			providers.find(provider => this.domain.name.includes(provider)) ??
+			providers[Math.floor(Math.random() * providers.length)]
+		)
 	}
 
 	createMockItem(): MockTrackerItem {
@@ -51,12 +49,14 @@ export default class MockTracker extends BaseSiteMock<MockTrackerItem>{
 		const project = this.project.shortName.toLowerCase()
 		const templatesArray = this.templates[provider as keyof typeof this.templates]
 		const templates = templatesArray.map(templates =>
-			templates.map(template => faker.helpers.mustache(template, {
-				url: this.domain.full,
-				abbreviation: this.project.abbreviation,
-				issueId: faker.string.numeric(5),
-				summary: faker.lorem.sentence(),
-			}))
+			templates.map(template =>
+				faker.helpers.mustache(template, {
+					url: this.domain.full,
+					abbreviation: this.project.abbreviation,
+					issueId: faker.string.numeric(5),
+					summary: faker.lorem.sentence(),
+				}),
+			),
 		)
 
 		return {

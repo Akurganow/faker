@@ -23,16 +23,12 @@ export default class MockDomain extends BaseItemMock<MockDomainItem, MockDomainQ
 	createMockItem(): MockDomainItem {
 		const protocol = this.query.domain?.match(/(https?|ftp):\/\//)?.[1] ?? faker.internet.protocol()
 
-		let domainName = protocol
-			? this.query.domain?.replace(`${protocol}://`, '')
-			: this.query.domain
+		let domainName = protocol ? this.query.domain?.replace(`${protocol}://`, '') : this.query.domain
 
 		domainName = domainName?.replace(/\/$/im, '')
 		const hasWWW = domainName?.match(/^www\./im)
 
-		domainName = hasWWW
-			? domainName?.replace(/^www\./im, '')
-			: domainName
+		domainName = hasWWW ? domainName?.replace(/^www\./im, '') : domainName
 
 		const domainNameMatch = domainName?.match(/^(.+)\.(.+)$/im)
 		const name = domainNameMatch

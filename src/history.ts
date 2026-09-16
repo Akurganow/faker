@@ -16,16 +16,14 @@ export interface MockHistoryItem extends chrome.history.HistoryItem {}
 
 type HistoryVariables = Record<string, string>
 
-export default class MockHistory extends BaseItemsMock<MockHistoryItem, MockHistoryQuery>{
+export default class MockHistory extends BaseItemsMock<MockHistoryItem, MockHistoryQuery> {
 	private readonly domain: MockDomainItem
 	private user?: MockUserItem
 	private project?: MockProjectItem
 	private variables: HistoryVariables
 
 	private templates = {
-		default: [
-			['{{url}}/{{fakePath}}', '{{lorem.sentence}} - {{fakePath}}']
-		],
+		default: [['{{url}}/{{fakePath}}', '{{lorem.sentence}} - {{fakePath}}']],
 		google: [
 			['https://www.google.com/search?q={{search}}', '{{search}} - Google Search'],
 			['https://www.google.com/search?q={{search}}', '{{search}} - Google Search'],
@@ -86,12 +84,8 @@ export default class MockHistory extends BaseItemsMock<MockHistoryItem, MockHist
 		const repository = new MockRepository(siteQuery).getItem()
 		const tracker = new MockTracker(siteQuery).getItem()
 
-		const repositoryTemplates = repository.isSupported
-			? repository.templates
-			: null
-		const trackerTemplates = tracker.isSupported
-			? tracker.templates
-			: null
+		const repositoryTemplates = repository.isSupported ? repository.templates : null
+		const trackerTemplates = tracker.isSupported ? tracker.templates : null
 		const finalTemplates = repositoryTemplates || trackerTemplates || this.getHistoryTemplates()
 
 		return faker.helpers.arrayElement(finalTemplates)
@@ -112,28 +106,21 @@ export default class MockHistory extends BaseItemsMock<MockHistoryItem, MockHist
 	createMockItem(): MockHistoryItem {
 		const title = this.getTitle()
 		const url = this.getUrl()
-		const from = this.query?.startTime
-			? new Date(this.query.startTime)
-			: faker.date.recent()
-		const to = this.query?.endTime
-			? new Date(this.query.endTime)
-			: new Date()
+		const from = this.query?.startTime ? new Date(this.query.startTime) : faker.date.recent()
+		const to = this.query?.endTime ? new Date(this.query.endTime) : new Date()
 
 		return {
 			id: faker.string.nanoid(),
 			title,
 			url,
-			lastVisitTime: faker.date.between({ from, to, }).getTime(),
+			lastVisitTime: faker.date.between({ from, to }).getTime(),
 			visitCount: faker.number.int(9999),
 			typedCount: faker.number.int(9999),
 		}
 	}
 
 	createMockItems(): MockHistoryItem[] {
-		return faker.helpers.multiple(
-			() => this.createMockItem(),
-			{ count: this.query?.maxResults ?? 10 }
-		)
+		return faker.helpers.multiple(() => this.createMockItem(), { count: this.query?.maxResults ?? 10 })
 	}
 
 	reset() {

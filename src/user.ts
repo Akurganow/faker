@@ -14,7 +14,7 @@ export interface MockUserItem {
 /**
  * Class representing a mock user.
  */
-export default class MockUser extends BaseItemMock<MockUserItem, MockDomainItem>{
+export default class MockUser extends BaseItemMock<MockUserItem, MockDomainItem> {
 	/**
 	 * Create a mock user.
 	 * @param {MockDomainItem} domain - The domain of the user

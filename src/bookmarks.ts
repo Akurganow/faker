@@ -25,21 +25,22 @@ export default class MockBookmarks extends BaseItemsMock<MockBookmarksItem, Mock
 		const minCount = Math.min(rootItemsCount, childrenItemsCount)
 		const rootItemsChildrenCount = faker.helpers.shuffle(createBalancedArray(minCount, childrenItemsCount))
 
-		return faker.helpers.multiple(
-			() => this.createMockItem(),
-			{ count: rootItemsCount }
-		).map((item, index) => {
-			return {
-				...item,
-				children: item.children && rootItemsChildrenCount[index] ? faker.helpers.multiple(
-					() => this.createMockItem(item.id),
-					{ count: rootItemsChildrenCount[index] }
-				).map((child, index) => ({
-					...child,
-					index,
-				})) : undefined,
-			}
-		})
+		return faker.helpers
+			.multiple(() => this.createMockItem(), { count: rootItemsCount })
+			.map((item, index) => {
+				return {
+					...item,
+					children:
+						item.children && rootItemsChildrenCount[index]
+							? faker.helpers
+									.multiple(() => this.createMockItem(item.id), { count: rootItemsChildrenCount[index] })
+									.map((child, index) => ({
+										...child,
+										index,
+									}))
+							: undefined,
+				}
+			})
 	}
 
 	createMockItem(parentId?: string): MockBookmarksItem {
@@ -56,10 +57,11 @@ export default class MockBookmarks extends BaseItemsMock<MockBookmarksItem, Mock
 	}
 
 	public getRootItem(): WithRequired<MockBookmarksItem, 'children'> {
-		const itemsWithChildren = this.items.filter(
-			item => item.children && item.children.length > 0
-		) as WithRequired<MockBookmarksItem, 'children'>[]
-		
+		const itemsWithChildren = this.items.filter(item => item.children && item.children.length > 0) as WithRequired<
+			MockBookmarksItem,
+			'children'
+		>[]
+
 		// If no items have children, create one by adding a child to an existing item
 		if (itemsWithChildren.length === 0) {
 			const rootItem = faker.helpers.arrayElement(this.items)
@@ -69,7 +71,7 @@ export default class MockBookmarks extends BaseItemsMock<MockBookmarksItem, Mock
 			rootItem.children.push(this.createMockItem(rootItem.id))
 			return rootItem as WithRequired<MockBookmarksItem, 'children'>
 		}
-		
+
 		return faker.helpers.arrayElement(itemsWithChildren)
 	}
 }

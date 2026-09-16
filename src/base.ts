@@ -31,4 +31,3 @@ export abstract class BaseItemMock<T extends object, Q extends object> {
 		this.item = this.createMockItem()
 	}
 }
-
