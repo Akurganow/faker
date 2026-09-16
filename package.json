@@ -55,7 +55,7 @@
 	"homepage": "https://github.com/Akurganow/faker#readme",
 	"devDependencies": {
 		"@babel/core": "^7.28.3",
-		"@babel/preset-env": "^7.28.3",
+		"@babel/preset-env": "^8.0.2",
 		"@biomejs/biome": "2.5.14",
 		"@release-it/conventional-changelog": "^12.0.0",
 		"@types/jest": "^30.0.0",
