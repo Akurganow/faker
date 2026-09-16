@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
-import MockDomain, { MockDomainItem } from './domain.js'
 import { BaseItemMock } from './base.js'
+import MockDomain, { type MockDomainItem } from './domain.js'
 
 export type MockProjectItem = {
 	name: string
@@ -8,7 +8,7 @@ export type MockProjectItem = {
 	abbreviation: string
 }
 
-export default class MockProject extends BaseItemMock<MockProjectItem, MockDomainItem>{
+export default class MockProject extends BaseItemMock<MockProjectItem, MockDomainItem> {
 	constructor(query?: MockDomainItem) {
 		super(query, new MockDomain().getItem())
 
@@ -18,23 +18,23 @@ export default class MockProject extends BaseItemMock<MockProjectItem, MockDomai
 	createMockItem(): MockProjectItem {
 		const name = this.query
 			? this.query.name
-				.split(/[-_]/i)
-				.map((word) => word[0].toUpperCase() + word.slice(1))
-				.join(' ')
+					.split(/[-_]/i)
+					.map(word => word[0].toUpperCase() + word.slice(1))
+					.join(' ')
 			: faker.company.name()
 		const split = name.split(/\W/i)
 		const shortName = split[0]
-		const abbreviation = split.length > 1
-			? split
-				.map((word) =>
-					word.match(/[A-Z]/) ? word[0] : '')
-				.join('')
-				.toUpperCase()
-			: split[0]
-				.split('')
-				.filter(str => !/^[aeiou]/i.test(str))
-				.join('')
-				.toUpperCase()
+		const abbreviation =
+			split.length > 1
+				? split
+						.map(word => (word.match(/[A-Z]/) ? word[0] : ''))
+						.join('')
+						.toUpperCase()
+				: split[0]
+						.split('')
+						.filter(str => !/^[aeiou]/i.test(str))
+						.join('')
+						.toUpperCase()
 
 		return {
 			name,

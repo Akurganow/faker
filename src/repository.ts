@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { BaseSiteMock, SiteQuery } from './base-extended.js'
+import { BaseSiteMock, type SiteQuery } from './base-extended.js'
 
 export interface MockRepositoryItem {
 	provider: string
@@ -11,7 +11,7 @@ export interface MockRepositoryItem {
 	isSupported: boolean
 }
 
-export default class MockRepository extends BaseSiteMock<MockRepositoryItem>{
+export default class MockRepository extends BaseSiteMock<MockRepositoryItem> {
 	templates = {
 		github: [
 			['{{url}}/{{user}}/{{project}}', '{{user}}/{{project}}'],
@@ -30,18 +30,13 @@ export default class MockRepository extends BaseSiteMock<MockRepositoryItem>{
 	}
 
 	private isProviderSupported() {
-		return Boolean(this.providers
-			.find(provider =>
-				this.domain.name.includes(provider)
-			)
-		)
+		return Boolean(this.providers.find(provider => this.domain.name.includes(provider)))
 	}
 
 	private supportedProvider() {
 		const providers = this.providers
 
-		return providers.find(provider => this.domain.name.includes(provider))
-			?? faker.helpers.arrayElement(providers)
+		return providers.find(provider => this.domain.name.includes(provider)) ?? faker.helpers.arrayElement(providers)
 	}
 
 	createMockItem(): MockRepositoryItem {
@@ -49,13 +44,15 @@ export default class MockRepository extends BaseSiteMock<MockRepositoryItem>{
 		const user = this.user.nickname.toLowerCase()
 		const project = this.project.shortName.toLowerCase()
 		const templatesArray = this.templates[provider as keyof typeof this.templates]
-		const templates = templatesArray.map(templates =>
-			templates.map(template => faker.helpers.mustache(template, {
-				url: this.domain.full,
-				user,
-				project,
-				summary: faker.lorem.sentence(),
-			}))
+		const templates = templatesArray.map(templateGroup =>
+			templateGroup.map(template =>
+				faker.helpers.mustache(template, {
+					url: this.domain.full,
+					user,
+					project,
+					summary: faker.lorem.sentence(),
+				}),
+			),
 		)
 
 		return {

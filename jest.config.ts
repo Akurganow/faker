@@ -24,15 +24,16 @@ const config: Config = {
 		'^(\\.{1,2}/.*)\\.js$': '$1',
 	},
 	transform: {
-		'^.+\\.tsx?$': ['ts-jest', {
-			useESM: true,
-			tsconfig: 'tsconfig.test.json',
-		}],
+		'^.+\\.tsx?$': [
+			'ts-jest',
+			{
+				useESM: true,
+				tsconfig: 'tsconfig.test.json',
+			},
+		],
 		'^.+\\.jsx?$': 'babel-jest',
 	},
-	transformIgnorePatterns: [
-		'node_modules/(?!@faker-js/faker)',
-	],
+	transformIgnorePatterns: ['node_modules/(?!@faker-js/faker)'],
 }
 
 export default config

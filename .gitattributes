@@ -1,0 +1,6 @@
+# Keep line endings LF everywhere: in the repository and in every checkout.
+# The CI lint/test/build matrix includes windows-latest, where Git for Windows
+# defaults to core.autocrlf=true and would otherwise hand the runner CRLF files.
+# Biome formats to LF (matching .editorconfig), so a CRLF checkout would make
+# `biome check .` report every line of every file as a formatting difference.
+* text=auto eol=lf

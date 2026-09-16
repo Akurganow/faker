@@ -1,8 +1,8 @@
-import MockUser, { MockUserItem } from './user.js'
-import MockProject, { MockProjectItem } from './project.js'
-import MockDomain, { MockDomainItem } from './domain.js'
-import { BaseItemMock } from './base.js'
 import { faker } from '@faker-js/faker'
+import { BaseItemMock } from './base.js'
+import MockDomain, { type MockDomainItem } from './domain.js'
+import MockProject, { type MockProjectItem } from './project.js'
+import MockUser, { type MockUserItem } from './user.js'
 
 export type SiteQuery = {
 	domain?: MockDomainItem
