@@ -94,7 +94,7 @@ export default class MockDownloads extends BaseItemsMock<MockDownloadItem, MockD
 	}
 
 	private getDates(): FileDates {
-		const yearAgo = new Date(new Date().getTime() - 365 * 24 * 60 * 60 * 1000).getTime()
+		const yearAgo = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).getTime()
 
 		const startedAfter = this.query.startedAfter ? new Date(this.query.startedAfter).getTime() + 1 : undefined
 		const startedBefore = this.query.startedBefore ? new Date(this.query.startedBefore).getTime() - 1 : undefined

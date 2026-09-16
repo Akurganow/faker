@@ -1,15 +1,14 @@
 import { faker } from '@faker-js/faker'
+import { isEmpty } from '@plq/is'
+import { BaseItemsMock } from './base-extended.js'
+import type { MockDomainItem } from './domain.js'
 import MockDomain from './domain.js'
-import MockUser from './user.js'
+import type { MockProjectItem } from './project.js'
 import MockProject from './project.js'
 import MockRepository from './repository.js'
 import MockTracker from './tracker.js'
-import type { MockDomainItem } from './domain.js'
 import type { MockUserItem } from './user.js'
-import type { MockProjectItem } from './project.js'
-
-import { isEmpty } from '@plq/is'
-import { BaseItemsMock } from './base-extended.js'
+import MockUser from './user.js'
 
 export interface MockHistoryQuery extends chrome.history.HistoryQuery {}
 export interface MockHistoryItem extends chrome.history.HistoryItem {}
@@ -64,11 +63,7 @@ export default class MockHistory extends BaseItemsMock<MockHistoryItem, MockHist
 		const text = this.query?.text
 		const foundKey = Object.keys(this.templates).find(key => text?.includes(key))
 
-		return text
-			? foundKey
-				? this.templates[foundKey as keyof typeof this.templates]
-				: this.templates.default
-			: this.templates.default
+		return text && foundKey ? this.templates[foundKey as keyof typeof this.templates] : this.templates.default
 	}
 
 	private getTemplates(): string[] {

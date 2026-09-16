@@ -1,7 +1,8 @@
 // import { faker } from '@faker-js/faker'
-import Bookmarks from '../src/bookmarks'
-import { detect } from '@plq/is'
+
 import { faker } from '@faker-js/faker'
+import { detect } from '@plq/is'
+import Bookmarks from '../src/bookmarks'
 
 // https://developer.chrome.com/docs/extensions/reference/bookmarks/
 describe('faker/bookmarks', () => {

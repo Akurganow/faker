@@ -1,0 +1,245 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+
+	// `.gitignore` already excludes /lib/, coverage and node_modules/, so honouring it keeps
+	// Biome's scope in sync with git automatically.
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+
+	// `useIgnoreFile` above already covers these three. They are spelled out anyway so the
+	// checked scope is readable from this file alone, without cross-referencing .gitignore,
+	// and stays put if .gitignore is ever edited. (It is not a fallback for a missing
+	// .gitignore: with vcs.enabled and neither .git nor .gitignore present, Biome refuses to
+	// run at all - verified.) Biome 2.x has no `files.ignore`; exclusions are `!` negations,
+	// spelled without a trailing /** - Biome's own useBiomeIgnoreFolder rule rejects that since 2.2.
+	"files": {
+		"includes": ["**", "!lib", "!coverage", "!node_modules"]
+	},
+
+	// Takes over every stylistic rule the previous linter enforced (indentation, tabs,
+	// semicolons, quotes, brace and block spacing) and matches .editorconfig (tabs, LF,
+	// final newline).
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"lineEnding": "lf",
+		// Ignoring one 679-column type literal that wraps at any setting, the longest line in
+		// the repo was 119 columns, but 57 lines were over 80. Measured reformat cost against
+		// main: 80 -> 406+/257- (19 files), 100 -> 294+/238-, 120 -> 252+/242- (17 files),
+		// 140 -> 249+/260-. The diff plateaus at 120.
+		// `indentWidth` is deliberately left at its default of 2: setting it to 2 explicitly
+		// produced a byte-identical result, and 4 only made the diff larger (264+/245-).
+		"lineWidth": 120
+	},
+
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single", // the repo has always used single quotes
+			"semicolons": "asNeeded", // the repo has always been semicolon-free
+			"bracketSpacing": true, // default; matches the existing { a, b } and { ... } spacing
+			"arrowParentheses": "asNeeded", // the repo writes bare single params 10x vs 2x parenthesised
+			// 61 of the 73 multi-line comma-separated structures in the repo already end with a
+			// trailing comma (objects 49/49, arrays 11/12, call arguments 1/12), and "all" also
+			// yields the smallest reformat (252+/242- vs 253+/243- for "es5", 299+/289- for "none").
+			"trailingCommas": "all"
+		}
+	},
+
+	// In Biome 2.x import sorting is an assist action, not a lint rule, and `biome check`
+	// fails on its diffs. Enabled (this is also the default) so import order is enforced.
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
+
+	"linter": {
+		"enabled": true,
+		"rules": {
+			// `recommended: true` is deprecated in 2.5 and prints a deserialize notice on every
+			// run; `preset` is its replacement.
+			"preset": "recommended",
+
+			// This project wants every enabled rule to be blocking. A group-level severity string
+			// (e.g. "style": "error") is not usable for that: per the configuration schema it
+			// "enables ALL the rules of this group", including the non-recommended ones - verified
+			// empirically: `"style": "error"` with `preset: "none"` reported 86 errors in src/ on
+			// main before this change, and reports 75 on this tree.
+			// So the recommended rules that default to warn/info are enumerated here instead.
+			// There are 84 of them; a11y is omitted only because all of its recommended rules
+			// already default to error. Re-derive the list after a Biome upgrade with
+			// `biome rage --linter` + `biome explain <rule>`.
+			"complexity": {
+				// Recommended rules whose default severity is warn/info, pinned to error (see above).
+				"noAdjacentSpacesInRegex": "error",
+				"noArguments": "error",
+				// noBannedTypes, and suspicious/noEmptyInterface (recommended at error, so not
+				// enumerated below): the config this replaces switched off its banned-types and
+				// empty-object-type rules for the exported `interface X extends chrome.* {}`
+				// declarations. Neither Biome rule needs that - noBannedTypes reports nothing on
+				// them (it flags {} / Function / Object type annotations, which the repo has none
+				// of) and noEmptyInterface skips interfaces that extend another type. So both stay
+				// enabled and nothing is switched off here.
+				"noBannedTypes": "error",
+				"noCommaOperator": "error",
+				"noEmptyTypeParameters": "error",
+				"noExtraBooleanCast": "error",
+				"noFlatMapIdentity": "error",
+				"noImportantStyles": "error",
+				"noStaticOnlyClass": "error",
+				"noThisInStatic": "error",
+				"noUselessCatch": "error",
+				"noUselessConstructor": "error",
+				"noUselessContinue": "error",
+				"noUselessEmptyExport": "error",
+				"noUselessEscapeInRegex": "error",
+				"noUselessFragments": "error",
+				"noUselessLabel": "error",
+				"noUselessLoneBlockStatements": "error",
+				"noUselessRename": "error",
+				"noUselessStringRaw": "error",
+				"noUselessSwitchCase": "error",
+				"noUselessTernary": "error",
+				"noUselessThisAlias": "error",
+				"noUselessTypeConstraint": "error",
+				"noUselessUndefinedInitialization": "error",
+				"useArrowFunction": "error",
+				"useDateNow": "error",
+				"useFlatMap": "error",
+				"useIndexOf": "error",
+				"useLiteralKeys": "error",
+				"useNumericLiterals": "error",
+				"useOptionalChain": "error",
+				"useRegexLiterals": "error",
+				"useSimpleNumberKeys": "error",
+
+				// Not in the recommended preset - enabled deliberately by this project.
+				// noExcessiveCognitiveComplexity: the successor to the previous `complexity` rule.
+				// It measures cognitive, not cyclomatic, complexity. The worst function in the repo scores
+				// 14 (Downloads.getDates, src/downloads.ts:96), so the default threshold of 15 is kept as-is.
+				// The previous cyclomatic threshold of 20 measured a different metric and never fired either.
+				"noExcessiveCognitiveComplexity": "error"
+			},
+			"correctness": {
+				// Recommended rules whose default severity is warn/info, pinned to error (see above).
+				"noUnusedFunctionParameters": "error",
+				"noUnusedImports": "error",
+				"noUnusedLabels": "error",
+				"noUnusedPrivateClassMembers": "error",
+				"noUnusedVariables": "error",
+				"useParseIntRadix": "error",
+
+				// Not in the recommended preset - enabled deliberately by this project.
+				// noUndeclaredVariables: catches references to identifiers that are neither declared nor
+				// known globals. See the __tests__ override below for the Jest globals.
+				"noUndeclaredVariables": "error"
+			},
+			"performance": {
+				// Recommended rules whose default severity is warn/info, pinned to error (see above).
+				"noAccumulatingSpread": "error",
+				"noDynamicNamespaceImportAccess": "error"
+			},
+			"style": {
+				// Recommended rules whose default severity is warn/info, pinned to error (see above).
+				"noDescendingSpecificity": "error",
+				"noNonNullAssertion": "error",
+				"useArrayLiterals": "error",
+				"useConst": "error",
+				"useDeprecatedReason": "error",
+				"useExponentiationOperator": "error",
+				"useExportType": "error",
+				"useImportType": "error",
+				"useLiteralEnumMembers": "error",
+				"useNodejsImportProtocol": "error",
+				"useShorthandFunctionType": "error",
+				"useTemplate": "error",
+
+				// Not in the recommended preset - enabled deliberately by this project.
+				// noEnum: TypeScript enums have no erasable-syntax equivalent; prefer union types.
+				"noEnum": "error",
+				"noInferrableTypes": "error",
+				"noNestedTernary": "error",
+				"noParameterAssign": "error",
+				"noUselessElse": "error",
+				"useBlockStatements": "error",
+				// useConsistentArrayType: `syntax` defaults to "shorthand" (T[]), which the repo already uses;
+				// "generic" would rewrite 19 declarations.
+				"useConsistentArrayType": "error",
+				// useNamingConvention: strictCase would reject the repo's two legitimate acronym identifiers:
+				// `useESM` (a ts-jest option name in jest.config.ts, not ours to rename) and
+				// `hasWWW` (src/domain.ts, WWW is the standard spelling of the subdomain prefix).
+				"useNamingConvention": { "level": "error", "options": { "strictCase": false } }
+			},
+			"suspicious": {
+				// Recommended rules whose default severity is warn/info, pinned to error (see above).
+				"noApproximativeNumericConstant": "error",
+				"noCatchAssign": "error",
+				"noConfusingLabels": "error",
+				"noConfusingVoidType": "error",
+				"noConstEnum": "error",
+				"noDeprecatedMediaType": "error",
+				"noDocumentCookie": "error",
+				"noDuplicateEnumValues": "error",
+				"noDuplicateFields": "error",
+				"noEmptyBlock": "error",
+				"noExplicitAny": "error",
+				"noExtraNonNullAssertion": "error",
+				"noGlobalIsFinite": "error",
+				"noGlobalIsNan": "error",
+				"noIrregularWhitespace": "error",
+				"noOctalEscape": "error",
+				"noProto": "error",
+				"noPrototypeBuiltins": "error",
+				"noQuickfixBiome": "error",
+				"noRedundantUseStrict": "error",
+				"noSuspiciousSemicolonInJsx": "error",
+				"noTemplateCurlyInString": "error",
+				"noTsIgnore": "error",
+				"noUselessEscapeInString": "error",
+				"noUselessRegexBackrefs": "error",
+				"useAdjacentOverloadSignatures": "error",
+				"useBiomeIgnoreFolder": "error",
+				"useDefaultSwitchClauseLast": "error",
+				"useGoogleFontDisplay": "error",
+				"useIsArray": "error",
+
+				// Not in the recommended preset - enabled deliberately by this project.
+				// noConsole: a published library must not write to stdout. __tests__ needs no exemption -
+				// the specs do not log.
+				"noConsole": "error",
+				"noEmptyBlockStatements": "error",
+				// noFocusedTests: stops test.only / describe.only from reaching main.
+				"noFocusedTests": "error",
+				"noShadow": "error",
+				// noSkippedTests: stops test.skip from silently disabling coverage.
+				"noSkippedTests": "error"
+			}
+		}
+	},
+
+	"overrides": [
+		{
+			// This is the only override the repo needs: no lint rule had to be relaxed for the
+			// specs, they pass the full rule set above as-is.
+			"includes": ["__tests__/**"],
+			"javascript": {
+				// Not needed for most of these today: because package.json depends on jest,
+				// Biome 2.5.14 auto-enables its `test` rule domain, which already supplies
+				// describe/test/it/expect and the before*/after* hooks as globals - with this
+				// list deleted, `biome check __tests__` still reports 0 noUndeclaredVariables
+				// diagnostics. It is kept for two measured reasons: `jest` itself (jest.fn(),
+				// jest.useFakeTimers()) is never supplied by that domain, at any domain setting;
+				// and the domain is inferred from package.json, so setting linter.domains.test
+				// to "none" or dropping the jest dependency makes every describe/test/expect
+				// undeclared again. This list does not depend on that inference.
+				"globals": ["afterAll", "afterEach", "beforeAll", "beforeEach", "describe", "expect", "it", "jest", "test"]
+			}
+		}
+	]
+}

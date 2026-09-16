@@ -31,11 +31,14 @@ export default class MockDomain extends BaseItemMock<MockDomainItem, MockDomainQ
 		domainName = hasWWW ? domainName?.replace(/^www\./im, '') : domainName
 
 		const domainNameMatch = domainName?.match(/^(.+)\.(.+)$/im)
-		const name = domainNameMatch
-			? domainNameMatch?.[1]
-			: domainName.length > 0
-				? domainName
-				: faker.internet.domainWord()
+		let name: string
+		if (domainNameMatch) {
+			name = domainNameMatch[1]
+		} else if (domainName.length > 0) {
+			name = domainName
+		} else {
+			name = faker.internet.domainWord()
+		}
 		const tld = domainNameMatch?.[2] ?? faker.internet.domainSuffix()
 
 		return {

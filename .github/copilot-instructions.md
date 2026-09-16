@@ -22,7 +22,7 @@ Run these commands in exact order to set up the development environment:
    npm run lint
    ```
    - Takes approximately 1 second
-   - Uses ESLint with TypeScript rules defined in `eslint.config.mjs`
+   - Uses Biome (linter, formatter and import sorting) configured in `biome.jsonc`
    - NEVER CANCEL: Always run before committing changes
 
 3. **Run tests**:
@@ -109,7 +109,7 @@ console.log('Available exports:', exports);
 - **`package.json`**: Dependencies and scripts configuration
 - **`tsconfig.json`**: TypeScript compiler settings
 - **`jest.config.ts`**: Test configuration
-- **`eslint.config.mjs`**: Linting rules
+- **`biome.jsonc`**: Linting, formatting and import-sorting rules
 
 ### Key Classes and Usage Patterns
 Always reference these patterns when working with the library:
@@ -148,8 +148,8 @@ The GitHub Actions CI (`.github/workflows/main.yml`) runs:
 - **Solution**: Check if new code follows existing patterns in `src/` files
 
 ### Linting Failures  
-- **Problem**: ESLint errors on commit
-- **Solution**: Run `npm run lint` and fix all errors before committing
+- **Problem**: Biome reports lint or formatting errors on commit
+- **Solution**: Run `npm run lint:fix` to apply the safe fixes, then `npm run lint` and fix what is left before committing
 
 ## Important Notes
 

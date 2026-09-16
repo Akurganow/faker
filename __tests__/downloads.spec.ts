@@ -50,10 +50,10 @@ describe('faker/downloads', () => {
 			})
 			test('startTime should be greater than year ago', () => {
 				const item = new Downloads().getItem()
-				expect(new Date(item.startTime).getTime()).toBeGreaterThan(new Date().getTime() - 1000 * 60 * 60 * 24 * 365)
+				expect(new Date(item.startTime).getTime()).toBeGreaterThan(Date.now() - 1000 * 60 * 60 * 24 * 365)
 			})
 			test('startTime should be greater to query.startedAfter', () => {
-				const now = new Date().getTime()
+				const now = Date.now()
 				const startedAfter = faker.date
 					.between({
 						from: now - 1000 * 60 * 60 * 24 * 365,
@@ -67,8 +67,8 @@ describe('faker/downloads', () => {
 			test('startTime should be less than query.startedBefore', () => {
 				const startedBefore = faker.date
 					.between({
-						from: new Date().getTime() - 1000 * 60 * 60 * 24 * 365,
-						to: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+						from: Date.now() - 1000 * 60 * 60 * 24 * 365,
+						to: Date.now() - 1000 * 60 * 60 * 24 * 7,
 					})
 					.toISOString()
 				const item = new Downloads({ startedBefore }).getItem()
@@ -78,8 +78,8 @@ describe('faker/downloads', () => {
 			test('startTime should be equal to query.startTime', () => {
 				const startTime = faker.date
 					.between({
-						from: new Date().getTime() - 1000 * 60 * 60 * 24 * 365,
-						to: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+						from: Date.now() - 1000 * 60 * 60 * 24 * 365,
+						to: Date.now() - 1000 * 60 * 60 * 24 * 7,
 					})
 					.toISOString()
 				const item = new Downloads({ startTime }).getItem()
@@ -89,8 +89,8 @@ describe('faker/downloads', () => {
 			test('startTime should be greater than query.endedAfter', () => {
 				const endedAfter = faker.date
 					.between({
-						from: new Date().getTime() - 1000 * 60 * 60 * 24 * 365,
-						to: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+						from: Date.now() - 1000 * 60 * 60 * 24 * 365,
+						to: Date.now() - 1000 * 60 * 60 * 24 * 7,
 					})
 					.toISOString()
 				const item = new Downloads({ endedAfter }).getItem()
@@ -100,8 +100,8 @@ describe('faker/downloads', () => {
 			test('startTime should be less than query.endedBefore', () => {
 				const endedBefore = faker.date
 					.between({
-						from: new Date().getTime() - 1000 * 60 * 60 * 24 * 365,
-						to: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+						from: Date.now() - 1000 * 60 * 60 * 24 * 365,
+						to: Date.now() - 1000 * 60 * 60 * 24 * 7,
 					})
 					.toISOString()
 				const item = new Downloads({ endedBefore }).getItem()
@@ -170,8 +170,8 @@ describe('faker/downloads', () => {
 			test('endTime should be greater than query.startTime', () => {
 				const startTime = faker.date
 					.between({
-						from: new Date().getTime() - 1000 * 60 * 60 * 24 * 365,
-						to: new Date().getTime() - 1000,
+						from: Date.now() - 1000 * 60 * 60 * 24 * 365,
+						to: Date.now() - 1000,
 					})
 					.toISOString()
 				const item = new Downloads({ state: 'complete', startTime }).getItem()
@@ -186,8 +186,8 @@ describe('faker/downloads', () => {
 			test('endTime should be less than query.endedBefore', () => {
 				const endedBefore = faker.date
 					.between({
-						from: new Date().getTime() - 1000 * 60 * 60 * 24 * 365,
-						to: new Date().getTime() - 1000,
+						from: Date.now() - 1000 * 60 * 60 * 24 * 365,
+						to: Date.now() - 1000,
 					})
 					.toISOString()
 				const item = new Downloads({ state: 'complete', endedBefore }).getItem()
@@ -197,8 +197,8 @@ describe('faker/downloads', () => {
 			test('endTime should be greater than query.endedAfter', () => {
 				const endedAfter = faker.date
 					.between({
-						from: new Date().getTime() - 1000 * 60 * 60 * 24 * 365,
-						to: new Date().getTime() - 1000,
+						from: Date.now() - 1000 * 60 * 60 * 24 * 365,
+						to: Date.now() - 1000,
 					})
 					.toISOString()
 				const item = new Downloads({ state: 'complete', endedAfter }).getItem()
@@ -208,8 +208,8 @@ describe('faker/downloads', () => {
 			test('endTime should be equal to query.endTime', () => {
 				const endTime = faker.date
 					.between({
-						from: new Date().getTime() - 1000 * 60 * 60 * 24 * 365,
-						to: new Date().getTime() - 1000,
+						from: Date.now() - 1000 * 60 * 60 * 24 * 365,
+						to: Date.now() - 1000,
 					})
 					.toISOString()
 				const item = new Downloads({ state: 'complete', endTime }).getItem()

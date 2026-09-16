@@ -1,8 +1,7 @@
 import { faker } from '@faker-js/faker'
-import { WithRequired } from './types.js'
 import { createBalancedArray } from '@plq/array-functions'
-
 import { BaseItemsMock } from './base-extended.js'
+import type { WithRequired } from './types.js'
 
 export interface MockBookmarksItem extends chrome.bookmarks.BookmarkTreeNode {}
 export interface MockBookmarksQuery extends chrome.bookmarks.SearchQuery {
@@ -34,9 +33,9 @@ export default class MockBookmarks extends BaseItemsMock<MockBookmarksItem, Mock
 						item.children && rootItemsChildrenCount[index]
 							? faker.helpers
 									.multiple(() => this.createMockItem(item.id), { count: rootItemsChildrenCount[index] })
-									.map((child, index) => ({
+									.map((child, childIndex) => ({
 										...child,
-										index,
+										index: childIndex,
 									}))
 							: undefined,
 				}

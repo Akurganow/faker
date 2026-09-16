@@ -14,7 +14,7 @@ describe('faker/history', () => {
 		const mockHistory = new History({
 			text: 'google',
 			maxResults: 15,
-			startTime: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+			startTime: Date.now() - 1000 * 60 * 60 * 24 * 7,
 		})
 
 		expect(mockHistory).toBeDefined()
@@ -25,7 +25,7 @@ describe('faker/history', () => {
 		const mockHistory = new History({
 			text: 'https://github.com',
 			maxResults: 15,
-			startTime: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+			startTime: Date.now() - 1000 * 60 * 60 * 24 * 7,
 		})
 
 		expect(mockHistory).toBeDefined()
@@ -36,7 +36,7 @@ describe('faker/history', () => {
 		const mockHistory = new History({
 			text: 'https://gitlab.com',
 			maxResults: 15,
-			startTime: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+			startTime: Date.now() - 1000 * 60 * 60 * 24 * 7,
 		})
 
 		expect(mockHistory).toBeDefined()
@@ -47,7 +47,7 @@ describe('faker/history', () => {
 		const mockHistory = new History({
 			text: 'https://jira.atlassian.com',
 			maxResults: 15,
-			startTime: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+			startTime: Date.now() - 1000 * 60 * 60 * 24 * 7,
 		})
 
 		expect(mockHistory).toBeDefined()
@@ -58,7 +58,7 @@ describe('faker/history', () => {
 		const mockHistory = new History({
 			text: 'https://youtrack.jetbrains.com',
 			maxResults: 15,
-			startTime: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+			startTime: Date.now() - 1000 * 60 * 60 * 24 * 7,
 		})
 
 		expect(mockHistory).toBeDefined()
@@ -69,7 +69,7 @@ describe('faker/history', () => {
 		const mockHistory = new History({
 			text: 'reddit.com/r/dev',
 			maxResults: 15,
-			startTime: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+			startTime: Date.now() - 1000 * 60 * 60 * 24 * 7,
 		})
 
 		expect(mockHistory).toBeDefined()
@@ -80,7 +80,7 @@ describe('faker/history', () => {
 		const mockHistory = new History({
 			text: 'https://web.dev',
 			maxResults: 15,
-			startTime: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+			startTime: Date.now() - 1000 * 60 * 60 * 24 * 7,
 		})
 
 		expect(mockHistory).toBeDefined()

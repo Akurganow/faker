@@ -12,7 +12,9 @@
 		"node": ">=18.18.0"
 	},
 	"scripts": {
-		"lint": "eslint ./src/**/*.ts",
+		"lint": "biome check .",
+		"lint:fix": "biome check --write .",
+		"format": "biome format --write .",
 		"test": "jest",
 		"build": "tsc",
 		"release": "dotenv release-it"
@@ -54,18 +56,16 @@
 	"devDependencies": {
 		"@babel/core": "^7.28.3",
 		"@babel/preset-env": "^7.28.3",
-		"@eslint/js": "^9.0.0",
+		"@biomejs/biome": "2.5.14",
 		"@release-it/conventional-changelog": "^12.0.0",
 		"@types/jest": "^30.0.0",
 		"babel-jest": "^30.0.5",
 		"dotenv-cli": "^11.0.0",
-		"eslint": "^9.0.0",
 		"jest": "^30.0.5",
 		"release-it": "^21.0.3",
 		"ts-jest": "^29.1.1",
 		"ts-node": "^10.9.1",
-		"typescript": "^5.8.3",
-		"typescript-eslint": "^8.38.0"
+		"typescript": "^5.8.3"
 	},
 	"dependencies": {
 		"@faker-js/faker": "^10.0.0",

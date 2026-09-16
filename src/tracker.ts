@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { BaseSiteMock, SiteQuery } from './base-extended.js'
+import { BaseSiteMock, type SiteQuery } from './base-extended.js'
 
 export interface MockTrackerItem {
 	provider: string
@@ -48,8 +48,8 @@ export default class MockTracker extends BaseSiteMock<MockTrackerItem> {
 		const user = this.user.nickname.toLowerCase()
 		const project = this.project.shortName.toLowerCase()
 		const templatesArray = this.templates[provider as keyof typeof this.templates]
-		const templates = templatesArray.map(templates =>
-			templates.map(template =>
+		const templates = templatesArray.map(templateGroup =>
+			templateGroup.map(template =>
 				faker.helpers.mustache(template, {
 					url: this.domain.full,
 					abbreviation: this.project.abbreviation,
