@@ -1,5 +1,5 @@
 ---
-contract_version: 1
+contract_version: 2
 ---
 
 # Constitution of Akurganow/faker
@@ -41,6 +41,21 @@ contract_version: 1
 ## Executor loads
 
 none
+
+## Labels
+
+- `needs-human` (owner attention): Lawman sent this feature request out of its funnel. A person decides on it.
+- `dependencies`: Pull requests that update a dependency file
+- `javascript`: Pull requests that update javascript code
+- `bug`: Something isn't working
+- `documentation`: Improvements or additions to documentation
+- `duplicate`: This issue or pull request already exists
+- `enhancement`: New feature or request
+- `good first issue`: Good for newcomers
+- `help wanted`: Extra attention is needed
+- `invalid`: This doesn't seem right
+- `question`: Further information is requested
+- `wontfix`: This will not be worked on
 
 ## Precedents
 
