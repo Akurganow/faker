@@ -1,5 +1,5 @@
 ---
-contract_version: 2
+contract_version: 3
 ---
 
 # Constitution of Akurganow/faker
@@ -44,7 +44,7 @@ none
 
 ## Labels
 
-- `needs-human` (owner attention): Lawman sent this feature request out of its funnel. A person decides on it.
+- `needs-human` (owner attention): Lawman cannot decide this issue alone. A person decides on it.
 - `dependencies`: Pull requests that update a dependency file
 - `javascript`: Pull requests that update javascript code
 - `bug`: Something isn't working
