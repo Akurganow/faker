@@ -56,7 +56,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.28.3",
 		"@babel/preset-env": "^7.28.3",
-		"@biomejs/biome": "2.5.14",
+		"@biomejs/biome": "2.5.15",
 		"@release-it/conventional-changelog": "^12.0.0",
 		"@types/jest": "^30.0.0",
 		"babel-jest": "^30.0.5",
